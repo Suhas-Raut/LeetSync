@@ -6,7 +6,7 @@
 
 | Level | Count |
 |-------|-------|
-| Easy | 3 |
+| Easy | 4 |
 | Medium | 0 |
 | Hard | 1 |
 
@@ -21,3 +21,5 @@
 | Binary Search | 1 |
 | Divide and Conquer | 1 |
 | Dynamic Programming | 1 |
+| Linked List | 1 |
+| Recursion | 1 |
