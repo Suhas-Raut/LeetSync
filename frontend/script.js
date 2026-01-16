@@ -3,6 +3,7 @@ const statusBox = document.getElementById("status");
 const historyList = document.getElementById("historyList");
 
 btn.addEventListener("click", async () => {
+  e.preventDefault(); // 🚫 STOP PAGE RELOAD
   statusBox.textContent = "⏳ Sending request...\n";
   console.log("🌐 FETCH STARTED");
 
