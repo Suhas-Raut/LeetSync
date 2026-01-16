@@ -24,11 +24,15 @@ btn.addEventListener("click", async () => {
 
     if (!res.ok) throw new Error(data.error);
 
+    // Update status box
     statusBox.textContent =
       `✅ Pushed!\n\n` +
       `ID: ${data.data.id}\n` +
       `Title: ${data.data.title}\n` +
       `Difficulty: ${data.data.difficulty}`;
+
+    // ✅ Call the notification function here
+    showSuccessNotification(data.data);
 
   } catch (err) {
     statusBox.textContent = "❌ " + err.message;
@@ -37,11 +41,12 @@ btn.addEventListener("click", async () => {
 
 /* ------------------ Notification Function ------------------ */
 function showSuccessNotification(problem) {
-  // Check permission
+  if (!("Notification" in window)) return; // Browser doesn't support
+
   if (Notification.permission === "granted") {
     new Notification("LeetSync ✅", {
       body: `Problem "${problem.title}" successfully pushed to GitHub!`,
-      icon: "favicon.png", // optional: add an icon in your frontend folder
+      icon: "favicon.png",
     });
   } else if (Notification.permission !== "denied") {
     Notification.requestPermission().then(permission => {
