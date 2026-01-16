@@ -1,40 +1,42 @@
 import fs from "fs";
 import path from "path";
-import { TAG_TO_DSA } from "./tagMapper.js";
 
 /**
- * Updates the root README with progress stats
+ * Updates the root README with full stats (accumulative)
  */
 export function updateRootReadme() {
   const baseDir = process.cwd();
-
   const difficultyCount = { Easy: 0, Medium: 0, Hard: 0 };
   const dsaCount = {};
 
-  // Scan all DSA folders
-  for (const folder of fs.readdirSync(baseDir, { withFileTypes: true })) {
-    if (!folder.isDirectory()) continue;
-    if (folder.name === "frontend") continue;
+  // Get all DSA folders
+  const folders = fs.readdirSync(baseDir, { withFileTypes: true })
+    .filter(f => f.isDirectory() && f.name !== "frontend");
 
+  for (const folder of folders) {
     const dsaFolder = folder.name;
+    dsaCount[dsaFolder] = 0;
+
     const problems = fs.readdirSync(path.join(baseDir, dsaFolder), { withFileTypes: true })
       .filter(f => f.isDirectory());
 
-    dsaCount[dsaFolder] = problems.length;
-
-    // Count difficulty from each README inside the folder
     for (const prob of problems) {
       const readmePath = path.join(baseDir, dsaFolder, prob.name, "README.md");
       if (!fs.existsSync(readmePath)) continue;
       const content = fs.readFileSync(readmePath, "utf-8");
-      if (content.includes("Difficulty: Easy")) difficultyCount.Easy++;
-      else if (content.includes("Difficulty: Medium")) difficultyCount.Medium++;
-      else if (content.includes("Difficulty: Hard")) difficultyCount.Hard++;
+
+      // Count difficulty reliably
+      if (/Difficulty:\s*Easy/i.test(content)) difficultyCount.Easy++;
+      else if (/Difficulty:\s*Medium/i.test(content)) difficultyCount.Medium++;
+      else if (/Difficulty:\s*Hard/i.test(content)) difficultyCount.Hard++;
+
+      // Count DSA topic
+      dsaCount[dsaFolder]++;
     }
   }
 
-  // Build README content
-  let readmeContent = `# 📘 LeetCode Progress Tracker
+  // Build README
+  let readme = `# 📘 LeetCode Progress Tracker
 
 ## Difficulty
 | Level | Count |
@@ -48,9 +50,9 @@ export function updateRootReadme() {
 `;
 
   for (const [dsa, count] of Object.entries(dsaCount)) {
-    readmeContent += `| ${dsa} | ${count} |\n`;
+    readme += `| ${dsa} | ${count} |\n`;
   }
 
-  fs.writeFileSync(path.join(baseDir, "README.md"), readmeContent);
-  console.log("✅ Root README updated with full counts!");
+  fs.writeFileSync(path.join(baseDir, "README.md"), readme);
+  console.log("✅ Root README fully updated!");
 }
