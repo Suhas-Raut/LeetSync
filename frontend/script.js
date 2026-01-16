@@ -33,6 +33,8 @@ btn.addEventListener("click", async () => {
 
     // ✅ Call the notification function here
     showSuccessNotification(data.data);
+    showToast(`✅ ${data.data.title} pushed to GitHub`);
+
 
   } catch (err) {
     statusBox.textContent = "❌ " + err.message;
@@ -58,4 +60,19 @@ function showSuccessNotification(problem) {
       }
     });
   }
+}
+
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.className = "toast success show";
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => {
+      toast.classList.add("hidden");
+    }, 300);
+  }, 3000);
 }
