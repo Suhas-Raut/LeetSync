@@ -191,3 +191,20 @@ footer {
 .toast.hidden {
   display: none;
 }
+
+
+.success-card {
+  background: #0f172a24;
+  border: 1px solid #22c55e;
+}
+
+#successLog {
+  height: 220px;
+  overflow-y: auto;
+  background: #02061740;
+  color: #ffffff;
+  padding: 12px;
+  font-size: 13px;
+  border-radius: 6px;
+  white-space: pre-wrap;
+}

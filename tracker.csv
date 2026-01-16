@@ -12,3 +12,4 @@ id,title,difficulty,tags
 14,Longest Common Prefix,Easy,Array|String|Trie
 64,Minimum Path Sum,Medium,Array|Dynamic Programming|Matrix
 1603,Running Sum of 1d Array,Easy,Array|Prefix Sum
+2,Add Two Numbers,Medium,Linked List|Math|Recursion

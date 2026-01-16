@@ -1,5 +1,5 @@
 const btn = document.getElementById("submitBtn");
-const statusBox = document.getElementById("status");
+const successLog = document.getElementById("successLog");
 
 btn.addEventListener("click", async () => {
   const input = document.getElementById("url").value.trim();
@@ -7,12 +7,11 @@ btn.addEventListener("click", async () => {
   const code = document.getElementById("code").value.trim();
 
   if (!input || !code) {
-    statusBox.textContent = "❌ Please fill all fields";
+    successLog.textContent = "❌ Please fill all fields";
     return;
   }
 
-  // Reset status log
-  statusBox.textContent = "⏳ Processing...\n";
+  successLog.textContent = "⏳ Processing...\n";
 
   try {
     const res = await fetch("http://localhost:3000/push", {
@@ -22,23 +21,19 @@ btn.addEventListener("click", async () => {
     });
 
     const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
 
-    if (!res.ok) {
-      throw new Error(data.error || "Backend error");
-    }
-
-    // ✅ SUCCESS LOG BOX (terminal-style)
-    statusBox.textContent = "";
-
-    if (Array.isArray(data.logs)) {
-      data.logs.forEach(line => {
-        statusBox.textContent += line + "\n";
-      });
-    } else {
-      statusBox.textContent = "⚠️ No logs received from backend";
-    }
+    // ✅ SUCCESS PRINT
+    successLog.textContent =
+      "✅ SUCCESSFULLY PUSHED\n\n" +
+      `🆔 ID: ${data.data.id}\n` +
+      `📌 Title: ${data.data.title}\n` +
+      `⚡ Difficulty: ${data.data.difficulty}\n\n` +
+      "🚀 Code pushed to GitHub successfully";
 
   } catch (err) {
-    statusBox.textContent = "❌ " + err.message;
+    successLog.textContent =
+      "❌ FAILED\n\n" +
+      err.message;
   }
 });
