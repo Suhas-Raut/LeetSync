@@ -9,6 +9,11 @@ const historyList = document.getElementById("historyList");
 
 btn.addEventListener("click", async (e) => {
   e.preventDefault(); // 🚫 STOP PAGE RELOAD
+  console.log("🟢 SCRIPT LOADED");
+window.addEventListener("beforeunload", () => {
+  console.log("🔴 PAGE IS RELOADING");
+});
+
   statusBox.textContent = "⏳ Sending request...\n";
   console.log("🌐 FETCH STARTED");
 
