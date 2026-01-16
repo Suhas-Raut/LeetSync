@@ -2,41 +2,50 @@ import fs from "fs";
 import path from "path";
 
 /**
- * Updates the root README with full stats (accumulative)
+ * Incrementally update the root README without losing old counts.
+ * @param {object} problem - { id, title, difficulty, tags: [] }
  */
-export function updateRootReadme() {
-  const baseDir = process.cwd();
-  const difficultyCount = { Easy: 0, Medium: 0, Hard: 0 };
-  const dsaCount = {};
+export function updateRootReadme(problem) {
+  const readmePath = path.join(process.cwd(), "README.md");
 
-  // Get all DSA folders
-  const folders = fs.readdirSync(baseDir, { withFileTypes: true })
-    .filter(f => f.isDirectory() && f.name !== "frontend");
+  // Initialize counts if README doesn't exist
+  let content = "";
+  let difficultyCount = { Easy: 0, Medium: 0, Hard: 0 };
+  let dsaCount = {};
 
-  for (const folder of folders) {
-    const dsaFolder = folder.name;
-    dsaCount[dsaFolder] = 0;
+  if (fs.existsSync(readmePath)) {
+    content = fs.readFileSync(readmePath, "utf-8");
 
-    const problems = fs.readdirSync(path.join(baseDir, dsaFolder), { withFileTypes: true })
-      .filter(f => f.isDirectory());
+    // Read difficulty table
+    const diffRegex = /\| Easy\s*\|\s*(\d+)/i;
+    const medRegex = /\| Medium\s*\|\s*(\d+)/i;
+    const hardRegex = /\| Hard\s*\|\s*(\d+)/i;
 
-    for (const prob of problems) {
-      const readmePath = path.join(baseDir, dsaFolder, prob.name, "README.md");
-      if (!fs.existsSync(readmePath)) continue;
-      const content = fs.readFileSync(readmePath, "utf-8");
+    difficultyCount.Easy = diffRegex.test(content) ? parseInt(content.match(diffRegex)[1]) : 0;
+    difficultyCount.Medium = medRegex.test(content) ? parseInt(content.match(medRegex)[1]) : 0;
+    difficultyCount.Hard = hardRegex.test(content) ? parseInt(content.match(hardRegex)[1]) : 0;
 
-      // Count difficulty reliably
-      if (/Difficulty:\s*Easy/i.test(content)) difficultyCount.Easy++;
-      else if (/Difficulty:\s*Medium/i.test(content)) difficultyCount.Medium++;
-      else if (/Difficulty:\s*Hard/i.test(content)) difficultyCount.Hard++;
-
-      // Count DSA topic
-      dsaCount[dsaFolder]++;
+    // Read DSA table
+    const dsaRegex = /\| ([\w-]+) \| (\d+) \|/g;
+    let match;
+    while ((match = dsaRegex.exec(content)) !== null) {
+      dsaCount[match[1]] = parseInt(match[2]);
     }
   }
 
-  // Build README
-  let readme = `# 📘 LeetCode Progress Tracker
+  // Increment difficulty
+  if (problem.difficulty && difficultyCount[problem.difficulty] != null) {
+    difficultyCount[problem.difficulty]++;
+  }
+
+  // Increment DSA topic counts
+  for (const tag of problem.tags) {
+    if (!dsaCount[tag]) dsaCount[tag] = 0;
+    dsaCount[tag]++;
+  }
+
+  // Build updated README
+  let newReadme = `# 📘 LeetCode Progress Tracker
 
 ## Difficulty
 | Level | Count |
@@ -49,10 +58,10 @@ export function updateRootReadme() {
 | Topic | Count |
 `;
 
-  for (const [dsa, count] of Object.entries(dsaCount)) {
-    readme += `| ${dsa} | ${count} |\n`;
+  for (const [topic, count] of Object.entries(dsaCount)) {
+    newReadme += `| ${topic} | ${count} |\n`;
   }
 
-  fs.writeFileSync(path.join(baseDir, "README.md"), readme);
-  console.log("✅ Root README fully updated!");
+  fs.writeFileSync(readmePath, newReadme);
+  console.log("✅ Root README updated incrementally!");
 }

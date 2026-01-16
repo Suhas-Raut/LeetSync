@@ -26,7 +26,13 @@ export async function generateAll(input, lang, code) {
     fs.writeFileSync(path.join(finalPath, "README.md"), readme);
   }
 
-  updateRootReadme(problem, dsaFolders);
+  updateRootReadme({
+  id: problem.id,
+  title: problem.title,
+  difficulty: problem.difficulty,
+  tags: problem.tags
+});
+
   pushProblemLocal(problem.id, problem.title);
 
   return {
