@@ -1,5 +1,6 @@
 const btn = document.getElementById("submitBtn");
-const statusBox = document.getElementById("status");
+const statusBox = document.getElementById("status");     // previous logs
+const successLog = document.getElementById("successLog"); // success only
 
 btn.addEventListener("click", async () => {
   const input = document.getElementById("url").value.trim();
@@ -7,12 +8,13 @@ btn.addEventListener("click", async () => {
   const code = document.getElementById("code").value.trim();
 
   if (!input || !code) {
-    statusBox.textContent = "❌ Please fill all fields\n";
+    successLog.textContent = "❌ Please fill all fields";
     return;
   }
 
-  // DO NOT clear aggressively
-  statusBox.textContent = "⏳ Processing...\n";
+  // Clear both boxes
+  statusBox.textContent = "⏳ Processing logs...\n";
+  successLog.textContent = "";
 
   try {
     const res = await fetch("http://localhost:3000/push", {
@@ -21,17 +23,29 @@ btn.addEventListener("click", async () => {
       body: JSON.stringify({ input, lang, code })
     });
 
-    const text = await res.text(); // 👈 IMPORTANT
-    console.log("RAW RESPONSE 👉", text);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
 
-    if (!res.ok) throw new Error("Push failed");
+    // ✅ Print backend logs in statusBox with 500ms delay
+    if (Array.isArray(data.logs)) {
+      for (const line of data.logs) {
+        statusBox.textContent += line + "\n";
+        await new Promise(resolve => setTimeout(resolve, 5000)); // 500ms delay
+      }
+    } else {
+      statusBox.textContent += "⚠️ No logs received from backend\n";
+    }
 
-    // ✅ FORCE PRINT SUCCESS
-    statusBox.textContent += "✅ Added problem folder\n";
-    statusBox.textContent += "🤖 Local git commit completed\n";
-    statusBox.textContent += "🚀 Code pushed to GitHub successfully\n";
+    // 🔥 Success message with green glow
+    successLog.textContent = "✅ Code successfully pushed: \"${data.data.title}\"";
+    successLog.classList.add("success-glow");
+
+    // Remove glow after 3s
+    setTimeout(() => {
+      successLog.classList.remove("success-glow");
+    }, 3000);
 
   } catch (err) {
-    statusBox.textContent += `❌ ERROR: ${err.message}\n`;
+    successLog.textContent = `❌ FAILED to push code\n${err.message}`;
   }
 });

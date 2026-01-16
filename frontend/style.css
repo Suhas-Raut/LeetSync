@@ -208,3 +208,9 @@ footer {
   border-radius: 6px;
   white-space: pre-wrap;
 }
+/* Success glow effect */
+.success-glow {
+  color: #0f0;               /* bright green text */
+  text-shadow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0;
+  transition: all 0.3s ease-in-out;
+}
