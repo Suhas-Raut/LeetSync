@@ -1,10 +1,10 @@
 export function generateReadme(problem, code, lang) {
   // Convert description into Markdown-friendly format
-  const mdDescription = problem.description
-    .split('\n')            // split by existing newlines
-    .map(line => line.trim() + '  ') // add 2 spaces at end for Markdown line break
-    .join('\n');
-
+const mdDescription = problem.description
+  .replace(/<br\s*\/?>/gi, '\n')       // convert <br> to newline
+  .replace(/<\/p>/gi, '\n\n')          // end of paragraph = double newline
+  .replace(/<[^>]+>/g, '')             // remove all other HTML tags
+  .trim();
   return `# ${problem.id}. ${problem.title}
 
 **Difficulty:** ${problem.difficulty}  
