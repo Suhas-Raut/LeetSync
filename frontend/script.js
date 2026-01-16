@@ -30,7 +30,7 @@ btn.addEventListener("click", async () => {
     if (Array.isArray(data.logs)) {
       for (const line of data.logs) {
         statusBox.textContent += line + "\n";
-        await new Promise(resolve => setTimeout(resolve, 500)); // 500ms delay
+        await new Promise(resolve => setTimeout(resolve, 5000)); // 500ms delay
       }
     } else {
       statusBox.textContent += "⚠️ No logs received from backend\n";
