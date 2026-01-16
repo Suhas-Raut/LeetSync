@@ -7,6 +7,8 @@ import { generateReadme } from "./scripts/generateReadme.js";
 import { updateRootReadme } from "./scripts/updateRootReadme.js";
 import { pushProblemLocal } from "./scripts/githubPushHelper.js";
 import { TAG_TO_DSA } from "./scripts/tagMapper.js";
+import { updateTopicReadme } from "./scripts/updateTopicReadme.js";
+
 
 
 dotenv.config();
@@ -28,6 +30,7 @@ export async function generateAll(input, lang, code) {
 
       const readme = generateReadme(problem, code, lang);
       fs.writeFileSync(path.join(finalPath, "README.md"), readme);
+        updateTopicReadme(basePath, problem);
 
       console.log(`✅ Added → ${ROOT_DSA_FOLDER}/${dsa}/${problemFolder}`);
     }
