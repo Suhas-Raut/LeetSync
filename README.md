@@ -6,7 +6,7 @@
 
 | Level | Count |
 |-------|-------|
-| Easy | 14 |
+| Easy | 15 |
 | Medium | 4 |
 | Hard | 1 |
 
@@ -30,10 +30,13 @@
 | String | 2 |
 | Trie | 1 |
 | Dynamic Programming | 1 |
-| Matrix | 1 |
+| Matrix | 2 |
 | Prefix Sum | 1 |
 | Sliding Window | 1 |
-| Matrix | 1 |
-| Tree | 1 |
-| Binary Tree | 1 |
+|  | 2 |
+| Tree | 2 |
+| Binary Tree | 1 |
 | Sorting | 1 |
+| Depth-First Search | 1 |
+| Breadth-First Search | 1 |
+| Binary Tree | 1 |

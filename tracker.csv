@@ -19,3 +19,4 @@ id,title,difficulty,tags
 2384,Root Equals Sum of Children,Easy,Tree|Binary Tree
 2809,Create Hello World Function,Easy,
 88,Merge Sorted Array,Easy,Array|Two Pointers|Sorting
+100,Same Tree,Easy,Tree|Depth-First Search|Breadth-First Search|Binary Tree
