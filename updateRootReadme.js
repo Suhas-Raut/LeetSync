@@ -34,7 +34,11 @@ export function updateRootReadme(problem) {
   // Count totals
   const counts = data.reduce((acc, p) => {
     acc.difficulty[p.difficulty] = (acc.difficulty[p.difficulty] || 0) + 1;
-    p.tags.forEach(t => (acc.tags[t] = (acc.tags[t] || 0) + 1));
+   p.tags.forEach(t => {
+  const tag = t.trim();
+  acc.tags[tag] = (acc.tags[tag] || 0) + 1;
+});
+
     return acc;
   }, { difficulty: {}, tags: {} });
 
