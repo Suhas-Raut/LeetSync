@@ -6,7 +6,7 @@
 
 | Level | Count |
 |-------|-------|
-| Easy | 12 |
+| Easy | 13 |
 | Medium | 4 |
 | Hard | 1 |
 

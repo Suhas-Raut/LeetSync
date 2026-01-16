@@ -14,14 +14,19 @@ btn.addEventListener("click", async () => {
   statusBox.textContent = "⏳ Processing logs...\n";
 
   try {
-    const res = await fetch("http://localhost:3000/push", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ input, lang, code })
-    });
+const res = await fetch("http://localhost:3000/push", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ input, lang, code })
+});
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Push failed");
+const data = await res.json();
+
+// 👇 YAHAN DAAL
+console.log("BACKEND RESPONSE 👉", data);
+
+if (!res.ok) throw new Error(data.error || "Push failed");
+
 
     if (Array.isArray(data.logs)) {
       data.logs.forEach(line => {
