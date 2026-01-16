@@ -20,24 +20,26 @@ btn.addEventListener("click", async () => {
       body: JSON.stringify({ input, lang, code })
     });
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
+const data = await res.json();
+console.log("BACKEND RESPONSE 👉", data);
 
-    // 🧹 Clear first
-    statusBox.textContent = "";
+if (!res.ok) throw new Error(data.error);
 
-    // ✅ PRINT BACKEND LOGS
-    if (Array.isArray(data.logs)) {
-      data.logs.forEach(line => {
-        statusBox.textContent += line + "\n";
-      });
-    } else {
-      statusBox.textContent = "⚠️ No logs received from backend";
-    }
+// clear
+statusBox.textContent = "";
 
-    // 🔔 Notifications
-    showSuccessNotification(data.data);
-    showToast(`✅ ${data.data.title} pushed to GitHub`);
+// print backend logs
+if (Array.isArray(data.logs)) {
+  data.logs.forEach(line => {
+    statusBox.textContent += line + "\n";
+  });
+} else {
+  statusBox.textContent = "⚠️ No logs received from backend";
+}
+
+showSuccessNotification(data.data);
+showToast(`✅ ${data.data.title} pushed to GitHub`);
+
 
   } catch (err) {
     statusBox.textContent = "❌ " + err.message;
