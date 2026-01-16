@@ -75,4 +75,6 @@ function showToast(message) {
       toast.classList.add("hidden");
     }, 300);
   }, 3000);
+
+  return true; // 👈 optional
 }
