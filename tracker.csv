@@ -22,3 +22,4 @@ id,title,difficulty,tags
 100,Same Tree,Easy,Tree|Depth-First Search|Breadth-First Search|Binary Tree
 33,Search in Rotated Sorted Array,Medium,Array|Binary Search
 5,Longest Palindromic Substring,Medium,Two Pointers|String|Dynamic Programming
+3221,Find the Peaks,Easy,Array|Enumeration

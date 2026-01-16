@@ -6,7 +6,7 @@
 
 | Level | Count |
 |-------|-------|
-| Easy | 15 |
+| Easy | 16 |
 | Medium | 6 |
 | Hard | 1 |
 
@@ -14,7 +14,7 @@
 
 | Topic | Count |
 |-------|-------|
-| Array | 11 |
+| Array | 12 |
 | Hash Table | 1 |
 | Two Pointers | 3 |
 | String | 2 |
@@ -40,3 +40,4 @@
 | Depth-First Search | 1 |
 | Breadth-First Search | 1 |
 | Binary Tree | 1 |
+| Enumeration | 1 |
