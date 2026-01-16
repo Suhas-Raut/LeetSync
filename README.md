@@ -6,7 +6,7 @@
 
 | Level | Count |
 |-------|-------|
-| Easy | 5 |
+| Easy | 6 |
 | Medium | 1 |
 | Hard | 1 |
 
@@ -23,3 +23,4 @@
 | Dynamic Programming | 2 |
 | Linked List | 1 |
 | Recursion | 1 |
+| Math | 1 |

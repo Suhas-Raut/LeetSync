@@ -7,3 +7,4 @@ id,title,difficulty,tags
 206,Reverse Linked List,Easy,Linked List|Recursion
 152,Maximum Product Subarray,Medium,Array|Dynamic Programming
 792,Binary Search,Easy,Array|Binary Search
+2556,Convert the Temperature,Easy,Math
