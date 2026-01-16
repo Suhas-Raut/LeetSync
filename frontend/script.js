@@ -34,3 +34,23 @@ btn.addEventListener("click", async () => {
     statusBox.textContent = "❌ " + err.message;
   }
 });
+
+/* ------------------ Notification Function ------------------ */
+function showSuccessNotification(problem) {
+  // Check permission
+  if (Notification.permission === "granted") {
+    new Notification("LeetSync ✅", {
+      body: `Problem "${problem.title}" successfully pushed to GitHub!`,
+      icon: "favicon.png", // optional: add an icon in your frontend folder
+    });
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        new Notification("LeetSync ✅", {
+          body: `Problem "${problem.title}" successfully pushed to GitHub!`,
+          icon: "favicon.png",
+        });
+      }
+    });
+  }
+}
