@@ -14,7 +14,7 @@ btn.addEventListener("click", async () => {
 
   // Clear both boxes
   statusBox.textContent = "⏳ Processing logs...\n";
-  successLog.textContent = `✅ Code successfully pushed: "${data.data.title}"`;
+  successLog.textContent = "";
 
   try {
     const res = await fetch("http://localhost:3000/push", {
