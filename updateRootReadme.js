@@ -1,87 +1,56 @@
 import fs from "fs";
 import path from "path";
+import { TAG_TO_DSA } from "./tagMapper.js";
 
-const ROOT_README = path.join(process.cwd(), "README.md");
+/**
+ * Updates the root README with progress stats
+ */
+export function updateRootReadme() {
+  const baseDir = process.cwd();
 
-export function updateRootReadme(problem, dsaFolders) {
-  const data = loadData();
+  const difficultyCount = { Easy: 0, Medium: 0, Hard: 0 };
+  const dsaCount = {};
 
-  // Update difficulty count
-  data.difficulty[problem.difficulty] =
-    (data.difficulty[problem.difficulty] || 0) + 1;
+  // Scan all DSA folders
+  for (const folder of fs.readdirSync(baseDir, { withFileTypes: true })) {
+    if (!folder.isDirectory()) continue;
+    if (folder.name === "frontend") continue;
 
-  // Update DSA counts
-  for (const dsa of dsaFolders) {
-    data.dsa[dsa] = (data.dsa[dsa] || 0) + 1;
-  }
+    const dsaFolder = folder.name;
+    const problems = fs.readdirSync(path.join(baseDir, dsaFolder), { withFileTypes: true })
+      .filter(f => f.isDirectory());
 
-  saveData(data);
-  const markdown = buildRootReadme(data);
-  fs.writeFileSync(ROOT_README, markdown);
-}
+    dsaCount[dsaFolder] = problems.length;
 
-/* ---------------- HELPERS ---------------- */
-
-function loadData() {
-  if (!fs.existsSync(ROOT_README)) {
-    return {
-      difficulty: {},
-      dsa: {}
-    };
-  }
-
-  const content = fs.readFileSync(ROOT_README, "utf8");
-
-  return {
-    difficulty: extractTable(content, "Difficulty"),
-    dsa: extractTable(content, "DSA")
-  };
-}
-
-function extractTable(content, section) {
-  const map = {};
-  const regex = new RegExp(`## ${section}[\\s\\S]*?\\n\\n`, "m");
-  const match = content.match(regex);
-
-  if (!match) return map;
-
-  const rows = match[0].split("\n").slice(3);
-  for (const row of rows) {
-    if (!row.includes("|")) continue;
-    const [key, val] = row.split("|").map(s => s.trim());
-    if (key && val && !isNaN(val)) {
-      map[key] = Number(val);
+    // Count difficulty from each README inside the folder
+    for (const prob of problems) {
+      const readmePath = path.join(baseDir, dsaFolder, prob.name, "README.md");
+      if (!fs.existsSync(readmePath)) continue;
+      const content = fs.readFileSync(readmePath, "utf-8");
+      if (content.includes("Difficulty: Easy")) difficultyCount.Easy++;
+      else if (content.includes("Difficulty: Medium")) difficultyCount.Medium++;
+      else if (content.includes("Difficulty: Hard")) difficultyCount.Hard++;
     }
   }
-  return map;
-}
 
-function saveData(data) {
-  fs.writeFileSync(
-    ".leetsync.json",
-    JSON.stringify(data, null, 2)
-  );
-}
-
-function buildRootReadme(data) {
-  return `
-# 📘 LeetCode Progress Tracker
+  // Build README content
+  let readmeContent = `# 📘 LeetCode Progress Tracker
 
 ## Difficulty
 | Level | Count |
-|------|-------|
-| Easy | ${data.difficulty.Easy || 0} |
-| Medium | ${data.difficulty.Medium || 0} |
-| Hard | ${data.difficulty.Hard || 0} |
+|-------|-------|
+| Easy  | ${difficultyCount.Easy} |
+| Medium| ${difficultyCount.Medium} |
+| Hard  | ${difficultyCount.Hard} |
 
 ## DSA
 | Topic | Count |
-|------|-------|
-${Object.entries(data.dsa)
-  .map(([k, v]) => `| ${k} | ${v} |`)
-  .join("\n")}
-
----
-_Updated automatically by **LeetSync** 🚀_
 `;
+
+  for (const [dsa, count] of Object.entries(dsaCount)) {
+    readmeContent += `| ${dsa} | ${count} |\n`;
+  }
+
+  fs.writeFileSync(path.join(baseDir, "README.md"), readmeContent);
+  console.log("✅ Root README updated with full counts!");
 }
