@@ -16,3 +16,4 @@ id,title,difficulty,tags
 3,Longest Substring Without Repeating Characters,Medium,Hash Table|String|Sliding Window
 1791,Richest Customer Wealth,Easy,Array|Matrix
 2732,Counter,Easy,
+2384,Root Equals Sum of Children,Easy,Tree|Binary Tree

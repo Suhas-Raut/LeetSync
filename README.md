@@ -6,7 +6,7 @@
 
 | Level | Count |
 |-------|-------|
-| Easy | 11 |
+| Easy | 12 |
 | Medium | 4 |
 | Hard | 1 |
 
@@ -34,3 +34,5 @@
 | Prefix Sum | 1 |
 | Sliding Window | 1 |
 | Matrix | 1 |
+| Tree | 1 |
+| Binary Tree | 1 |
