@@ -1,5 +1,6 @@
 const btn = document.getElementById("submitBtn");
-const successLog = document.getElementById("successLog");
+const statusBox = document.getElementById("status");     // previous logs
+const successLog = document.getElementById("successLog"); // success only
 
 btn.addEventListener("click", async () => {
   const input = document.getElementById("url").value.trim();
@@ -11,7 +12,9 @@ btn.addEventListener("click", async () => {
     return;
   }
 
-  successLog.textContent = "⏳ Processing...\n";
+  // Clear both boxes
+  statusBox.textContent = "⏳ Processing logs...\n";
+  successLog.textContent = "";
 
   try {
     const res = await fetch("http://localhost:3000/push", {
@@ -23,17 +26,19 @@ btn.addEventListener("click", async () => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
 
-    // ✅ SUCCESS PRINT
-    successLog.textContent =
-      "✅ SUCCESSFULLY PUSHED\n\n" +
-      `🆔 ID: ${data.data.id}\n` +
-      `📌 Title: ${data.data.title}\n` +
-      `⚡ Difficulty: ${data.data.difficulty}\n\n` +
-      "🚀 Code pushed to GitHub successfully";
+    // ✅ Print backend logs in statusBox
+    if (Array.isArray(data.logs)) {
+      data.logs.forEach(line => {
+        statusBox.textContent += line + "\n";
+      });
+    } else {
+      statusBox.textContent += "⚠️ No logs received from backend\n";
+    }
+
+    // 🔥 Print ONLY success message in successLog
+    successLog.textContent = `✅ Code successfully pushed: "${data.data.title}"`;
 
   } catch (err) {
-    successLog.textContent =
-      "❌ FAILED\n\n" +
-      err.message;
+    successLog.textContent = `❌ FAILED to push code\n${err.message}`;
   }
 });

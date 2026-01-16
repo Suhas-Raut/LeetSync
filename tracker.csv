@@ -13,3 +13,4 @@ id,title,difficulty,tags
 64,Minimum Path Sum,Medium,Array|Dynamic Programming|Matrix
 1603,Running Sum of 1d Array,Easy,Array|Prefix Sum
 2,Add Two Numbers,Medium,Linked List|Math|Recursion
+3,Longest Substring Without Repeating Characters,Medium,Hash Table|String|Sliding Window

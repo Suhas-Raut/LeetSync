@@ -1,7 +1,5 @@
-# Hash-Table
+# Sliding-Window
 
 ## Problems
 
-- [1-two-sum](1-two-sum/README.md)
-- [13-roman-to-integer](13-roman-to-integer/README.md)
 - [3-longest-substring-without-repeating-characters](3-longest-substring-without-repeating-characters/README.md)
