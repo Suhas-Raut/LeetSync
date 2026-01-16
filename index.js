@@ -4,10 +4,10 @@ import dotenv from "dotenv";
 
 import { fetchProblemData } from "./scripts/fetchProblem.js";
 import { generateReadme } from "./scripts/generateReadme.js";
-import { updateRootReadme } from "./scripts/updateRootReadme.js";
 import { pushProblemLocal } from "./scripts/githubPushHelper.js";
-import { TAG_TO_DSA } from "./scripts/tagMapper.js";
+import { updateRootReadme } from "./scripts/updateRootReadme.js";
 import { updateTopicReadme } from "./scripts/updateTopicReadme.js";
+import { TAG_TO_DSA } from "./scripts/tagMapper.js";
 
 
 
@@ -36,7 +36,6 @@ export async function generateAll(input, lang, code) {
     }
 
     updateRootReadme(problem);
-    updateTopicReadmes();
     pushProblemLocal(problem.id, problem.title);
 
     return {

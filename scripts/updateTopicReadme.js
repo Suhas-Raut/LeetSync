@@ -1,28 +1,28 @@
+// scripts/updateTopicReadme.js
 import fs from "fs";
 import path from "path";
+import { TAG_TO_DSA } from "./tagMapper.js"; // same folder
 
-export function updateTopicReadme(topicPath, problem) {
-  const readmePath = path.join(topicPath, "README.md");
 
-  let lines = [];
+export function updateTopicReadme(problem) {
+  const baseDir = path.join(process.cwd(), "Leetcode DSA");
 
-  // If README exists → read it
-  if (fs.existsSync(readmePath)) {
-    lines = fs.readFileSync(readmePath, "utf-8").split("\n");
-  } else {
-    // Create header if first time
-    lines.push(`# ${path.basename(topicPath)}`);
-    lines.push("");
-    lines.push("## Problems");
-    lines.push("");
-  }
+  problem.tags.forEach(tag => {
+    const folderName = TAG_TO_DSA[tag];
+    if (!folderName) return;
 
-  const entry = `- **${problem.id}. ${problem.title}** (${problem.difficulty})`;
+    const topicDir = path.join(baseDir, folderName);
+    if (!fs.existsSync(topicDir)) return;
 
-  // Prevent duplicates
-  if (!lines.includes(entry)) {
-    lines.push(entry);
-  }
+    const problems = fs.readdirSync(topicDir)
+      .filter(f => fs.statSync(path.join(topicDir, f)).isDirectory())
+      .sort((a, b) => a.localeCompare(b));
 
-  fs.writeFileSync(readmePath, lines.join("\n"));
+    let content = `# ${folderName}\n\n## Problems\n\n`;
+    problems.forEach(p => {
+      content += `- [${p}](${p}/README.md)\n`;
+    });
+
+    fs.writeFileSync(path.join(topicDir, "README.md"), content);
+  });
 }
