@@ -6,7 +6,7 @@
 
 | Level | Count |
 |-------|-------|
-| Easy | 17 |
+| Easy | 18 |
 | Medium | 6 |
 | Hard | 1 |
 
@@ -27,7 +27,7 @@
 | Math | 1 |
 | Hash Table | 2 |
 | Math | 2 |
-| String | 3 |
+| String | 4 |
 | Trie | 1 |
 | Dynamic Programming | 2 |
 | Matrix | 2 |

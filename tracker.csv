@@ -24,3 +24,4 @@ id,title,difficulty,tags
 5,Longest Palindromic Substring,Medium,Two Pointers|String|Dynamic Programming
 3221,Find the Peaks,Easy,Array|Enumeration
 35,Search Insert Position,Easy,Array|Binary Search
+58,Length of Last Word,Easy,String
