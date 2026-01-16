@@ -58,21 +58,28 @@ export function updateRootReadme(problem) {
     { difficulty: {}, tags: {} }
   );
 
-  // 4️⃣ Generate README
-  let readme = "# 📘 LeetCode Progress Tracker\n\n";
-  readme += "## 🧠 LeetCode DSA\n\n";
+// 4️⃣ Generate README
+let readme = "# 📘 LeetCode Progress Tracker\n\n";
+readme += "## 🧠 LeetCode DSA\n\n";
 
-  readme += "### Difficulty\n\n";
-  readme += "| Level | Count |\n|-------|-------|\n";
-  ["Easy", "Medium", "Hard"].forEach(level => {
-    readme += `| ${level} | ${counts.difficulty[level] || 0} |\n`;
-  });
+// Difficulty table
+readme += "### Difficulty\n\n";
+readme += "| Level | Count |\n|-------|-------|\n";
+["Easy", "Medium", "Hard"].forEach(level => {
+  readme += `| ${level} | ${counts.difficulty[level] || 0} |\n`;
+});
 
-  readme += "\n### DSA Topics\n\n";
-  readme += "| Topic | Count |\n|-------|-------|\n";
-  Object.entries(counts.tags).forEach(([tag, count]) => {
-    readme += `| ${tag} | ${count} |\n`;
-  });
+// DSA Topics table with clickable links
+readme += "\n### DSA Topics\n\n";
+readme += "| Topic | Count |\n|-------|-------|\n";
 
-  fs.writeFileSync(path.join(process.cwd(), "README.md"), readme);
+const REPO_BASE = "https://github.com/Suhas-Raut/LeetSync/tree/main/Leetcode%20DSA";
+
+Object.entries(counts.tags).forEach(([tag, count]) => {
+  const folderLink = `${REPO_BASE}/${encodeURIComponent(tag)}`;
+  readme += `| [${tag}](${folderLink}) | ${count} |\n`;
+});
+
+fs.writeFileSync(path.join(process.cwd(), "README.md"), readme);
+
 }
