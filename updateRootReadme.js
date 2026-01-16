@@ -1,15 +1,23 @@
-export function updateRootReadme(problem) {
-  // Read CSV into array
-  const data = fs.readFileSync(TRACKER_FILE, "utf-8")
-    .trim()
-    .split("\n")
-    .slice(1)
-    .map(line => {
-      const [id, title, difficulty, tags] = line.split(",");
-      return { id, title, difficulty, tags: tags.split("|") };
-    });
+import fs from "fs";
+import path from "path";
 
-  // Add new problem if not already present
+export function updateRootReadme(problem) {
+  const TRACKER_FILE = path.join(process.cwd(), "tracker.csv");
+
+  // Read existing CSV
+  let data = [];
+  if (fs.existsSync(TRACKER_FILE)) {
+    data = fs.readFileSync(TRACKER_FILE, "utf-8")
+      .trim()
+      .split("\n")
+      .slice(1)
+      .map(line => {
+        const [id, title, difficulty, tags] = line.split(",");
+        return { id, title, difficulty, tags: tags.split("|") };
+      });
+  }
+
+  // Append new problem if not already present
   if (!data.find(p => p.id === problem.id)) {
     fs.appendFileSync(
       TRACKER_FILE,
@@ -30,24 +38,18 @@ export function updateRootReadme(problem) {
     return acc;
   }, { difficulty: {}, tags: {} });
 
-  // Generate README content
+  // Generate README
   let readmeContent = "# 📘 LeetCode Progress Tracker\n\n";
-
-  // Difficulty table
-  readmeContent += "## Difficulty\n\n";
-  readmeContent += "| Level | Count |\n";
-  readmeContent += "|-------|-------|\n";
+  readmeContent += "## Difficulty\n\n| Level | Count |\n|-------|-------|\n";
   ["Easy", "Medium", "Hard"].forEach(level => {
     readmeContent += `| ${level} | ${counts.difficulty[level] || 0} |\n`;
   });
 
-  // DSA Topics table
-  readmeContent += "\n## DSA\n\n";
-  readmeContent += "| Topic | Count |\n";
-  readmeContent += "|-------|-------|\n";
+  readmeContent += "\n## DSA\n\n| Topic | Count |\n|-------|-------|\n";
   for (const [tag, count] of Object.entries(counts.tags)) {
     readmeContent += `| ${tag} | ${count} |\n`;
   }
 
   fs.writeFileSync(path.join(process.cwd(), "README.md"), readmeContent);
 }
+
