@@ -1,6 +1,6 @@
 const btn = document.getElementById("submitBtn");
-const statusBox = document.getElementById("status");
-const successLog = document.getElementById("successLog");
+const statusBox = document.getElementById("status");     // previous logs
+const successLog = document.getElementById("successLog"); // success only
 
 btn.addEventListener("click", async () => {
   const input = document.getElementById("url").value.trim();
@@ -12,6 +12,7 @@ btn.addEventListener("click", async () => {
     return;
   }
 
+  // Clear both boxes
   statusBox.textContent = "⏳ Processing logs...\n";
   successLog.textContent = "";
 
@@ -23,20 +24,23 @@ btn.addEventListener("click", async () => {
     });
 
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Push failed");
+    if (!res.ok) throw new Error(data.error);
 
-    // ✅ Status log (safe)
+    // ✅ Print backend logs in statusBox with 500ms delay
     if (Array.isArray(data.logs)) {
       for (const line of data.logs) {
         statusBox.textContent += line + "\n";
-        await new Promise(r => setTimeout(r, 500));
+        await new Promise(resolve => setTimeout(resolve, 5000)); // 500ms delay
       }
+    } else {
+      statusBox.textContent += "⚠️ No logs received from backend\n";
     }
 
-    // ✅ SUCCESS — no backend dependency
-    successLog.textContent = "✅ Code successfully pushed to GitHub";
+    // 🔥 Success message with green glow
+    successLog.textContent = "✅ Code successfully pushed: \"${data.data.title}\"";
     successLog.classList.add("success-glow");
 
+    // Remove glow after 3s
     setTimeout(() => {
       successLog.classList.remove("success-glow");
     }, 3000);
