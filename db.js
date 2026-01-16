@@ -2,7 +2,8 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
 
-const dbPath = path.join(process.cwd(), 'leetsync.db');
+cconst dbPath = path.join(process.cwd(), 'tracker.db');
+
 
 // Create DB file if not exists
 if (!fs.existsSync(dbPath)) fs.writeFileSync(dbPath, '');

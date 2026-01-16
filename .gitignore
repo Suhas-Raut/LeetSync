@@ -6,6 +6,8 @@ node_modules/
 
 # Local LeetSync state
 .leetsync.json
+leetsync.db
+
 
 # Optional OS files
 .DS_Store
