@@ -5,3 +5,4 @@ id,title,difficulty,tags
 4,Median of Two Sorted Arrays,Hard,Array|Binary Search|Divide and Conquer
 121,Best Time to Buy and Sell Stock,Easy,Array|Dynamic Programming
 206,Reverse Linked List,Easy,Linked List|Recursion
+152,Maximum Product Subarray,Medium,Array|Dynamic Programming
