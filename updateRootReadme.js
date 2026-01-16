@@ -43,17 +43,25 @@ export function updateRootReadme(problem) {
   }, { difficulty: {}, tags: {} });
 
   // Generate README
-  let readmeContent = "# 📘 LeetCode Progress Tracker\n\n";
-  readmeContent += "## Difficulty\n\n| Level | Count |\n|-------|-------|\n";
-  ["Easy", "Medium", "Hard"].forEach(level => {
-    readmeContent += `| ${level} | ${counts.difficulty[level] || 0} |\n`;
-  });
+// Generate README
+let readmeContent = "# 📘 LeetCode Progress Tracker\n\n";
 
-  readmeContent += "\n## DSA\n\n| Topic | Count |\n|-------|-------|\n";
-  for (const [tag, count] of Object.entries(counts.tags)) {
-    readmeContent += `| ${tag} | ${count} |\n`;
-  }
+readmeContent += "## 🧠 LeetCode DSA\n\n";
 
-  fs.writeFileSync(path.join(process.cwd(), "README.md"), readmeContent);
+/* ---------- Difficulty ---------- */
+readmeContent += "### Difficulty\n\n";
+readmeContent += "| Level | Count |\n|-------|-------|\n";
+["Easy", "Medium", "Hard"].forEach(level => {
+  readmeContent += `| ${level} | ${counts.difficulty[level] || 0} |\n`;
+});
+
+/* ---------- DSA Topics ---------- */
+readmeContent += "\n### DSA Topics\n\n";
+readmeContent += "| Topic | Count |\n|-------|-------|\n";
+for (const [tag, count] of Object.entries(counts.tags)) {
+  readmeContent += `| ${tag} | ${count} |\n`;
 }
+
+fs.writeFileSync(path.join(process.cwd(), "README.md"), readmeContent);
+
 

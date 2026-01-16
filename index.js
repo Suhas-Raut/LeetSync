@@ -12,15 +12,15 @@ dotenv.config();
 
 export async function generateAll(input, lang, code) {
   try {
-    // Fetch problem data from LeetCode
     const problem = await fetchProblemData(input);
 
-    // Prepare folder(s) for the problem
     const problemFolder = `${problem.id}-${slugify(problem.title)}`;
     const dsaFolders = resolveDSAFolders(problem.tags);
 
+    const ROOT_DSA_FOLDER = "Leetcode DSA";
+
     for (const dsa of dsaFolders) {
-      const basePath = path.join(process.cwd(), dsa);
+      const basePath = path.join(process.cwd(), ROOT_DSA_FOLDER, dsa);
       const finalPath = path.join(basePath, problemFolder);
 
       fs.mkdirSync(finalPath, { recursive: true });
@@ -28,13 +28,10 @@ export async function generateAll(input, lang, code) {
       const readme = generateReadme(problem, code, lang);
       fs.writeFileSync(path.join(finalPath, "README.md"), readme);
 
-      console.log(`✅ Added → ${dsa}/${problemFolder}`);
+      console.log(`✅ Added → ${ROOT_DSA_FOLDER}/${dsa}/${problemFolder}`);
     }
 
-    // ---- HERE is where we update the root README via tracker JSON ----
     updateRootReadme(problem);
-
-    // Push locally via Git
     pushProblemLocal(problem.id, problem.title);
 
     return {
@@ -49,6 +46,7 @@ export async function generateAll(input, lang, code) {
     throw err;
   }
 }
+
 
 /* ---------------- HELPERS ---------------- */
 
