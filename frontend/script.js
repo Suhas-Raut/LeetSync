@@ -3,49 +3,29 @@ const statusBox = document.getElementById("status");
 const historyList = document.getElementById("historyList");
 
 btn.addEventListener("click", async () => {
-  console.log("🔥 BUTTON CLICKED");
-
-  const input = document.getElementById("url").value.trim();
-  const lang = document.getElementById("lang").value;
-  const code = document.getElementById("code").value.trim();
-
-  if (!input || !code) {
-    statusBox.textContent = "❌ Please fill all fields";
-    return;
-  }
-
-  statusBox.textContent = "⏳ Working on it...\n";
-  console.log("🌐 ABOUT TO SEND REQUEST", { input, lang, code });
+  statusBox.textContent = "⏳ Sending request...\n";
+  console.log("🌐 FETCH STARTED");
 
   try {
     const res = await fetch("http://localhost:3000/push", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ input, lang, code })
+      body: JSON.stringify({
+        input: "https://leetcode.com/problems/zigzag-conversion",
+        lang: "cpp",
+        code: "TEST"
+      })
     });
 
-    const data = await res.json();
-    console.log("📦 FULL RESPONSE FROM BACKEND:", data);
+    console.log("📡 RESPONSE STATUS:", res.status);
 
-    if (!res.ok) throw new Error(data.error || "Push failed");
+    const raw = await res.text();
+    console.log("📦 RAW RESPONSE:", raw);
 
-    // ✅ STATUS LOGS
-    if (Array.isArray(data.logs)) {
-      for (const line of data.logs) {
-        statusBox.textContent += line + "\n";
-        await new Promise(r => setTimeout(r, 400));
-      }
-    }
-
-    statusBox.textContent += "\n🤖 Successfully pushed to GitHub\n";
-    statusBox.textContent += "🧪 TEST LINE\n";
-
-    // ✅ HISTORY ENTRY
-    const li = document.createElement("li");
-    li.textContent = `🤖 ${data?.data?.title || input} — pushed successfully`;
-    historyList.prepend(li);
+    statusBox.textContent += "📦 Raw response received\n";
 
   } catch (err) {
-    statusBox.textContent += `\n❌ ${err.message}`;
+    console.error("❌ FETCH ERROR:", err);
+    statusBox.textContent += "❌ Fetch failed\n";
   }
 });

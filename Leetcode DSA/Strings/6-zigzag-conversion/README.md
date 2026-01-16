@@ -24,21 +24,5 @@ The string &quot;PAYPALISHIRING&quot; is written in a zigzag pattern on a given 
 ## ✅ Solution Code (cpp)
 
 ```cpp
-class Solution {
-public:
-    string convert(string s, int r) {
-        if(r==1) return s;
-        vector<string> v(r);
-        int row=0, dir=1;
-        for(char c: s){
-            v[row]+=c;
-            if(row==0) dir=1;
-            if(row==r-1) dir=-1;
-            row+=dir;
-        }
-        string ans="";
-        for(auto &str: v) ans+=str;
-        return ans;
-    }
-};
+TEST
 ```
