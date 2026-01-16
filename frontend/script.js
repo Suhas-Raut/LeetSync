@@ -37,7 +37,7 @@ btn.addEventListener("click", async () => {
     }
 
     // 🔥 Success message with green glow
-    successLog.textContent = "✅ Code successfully pushed: \"${data.data.title}\"";
+    successLog.textContent = `✅ Code successfully pushed: "${data.data.title}"`;
     successLog.classList.add("success-glow");
 
     // Remove glow after 3s
