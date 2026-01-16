@@ -7,7 +7,9 @@ import { TAG_TO_DSA } from "./tagMapper.js"; // same folder
 export function updateTopicReadme(problem) {
   const baseDir = path.join(process.cwd(), "Leetcode DSA");
 
-  problem.tags.forEach(tag => {
+  const tags = problem.tags ?? [];
+
+tags.forEach(tag => {
     const folderName = TAG_TO_DSA[tag];
     if (!folderName) return;
 

@@ -16,7 +16,7 @@ dotenv.config();
 export async function generateAll(input, lang, code) {
   try {
     const problem = await fetchProblemData(input);
-
+    
     const problemFolder = `${problem.id}-${slugify(problem.title)}`;
     const dsaFolders = resolveDSAFolders(problem.tags);
 
@@ -30,7 +30,7 @@ export async function generateAll(input, lang, code) {
 
       const readme = generateReadme(problem, code, lang);
       fs.writeFileSync(path.join(finalPath, "README.md"), readme);
-        updateTopicReadme(basePath, problem);
+        updateTopicReadme(problem);
 
       console.log(`✅ Added → ${ROOT_DSA_FOLDER}/${dsa}/${problemFolder}`);
     }
