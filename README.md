@@ -7,7 +7,7 @@
 | Level | Count |
 |-------|-------|
 | Easy | 19 |
-| Medium | 6 |
+| Medium | 7 |
 | Hard | 1 |
 
 ### DSA Topics
@@ -27,7 +27,7 @@
 | Math | 1 |
 | Hash Table | 2 |
 | Math | 2 |
-| String | 4 |
+| String | 5 |
 | Trie | 1 |
 | Dynamic Programming | 2 |
 | Matrix | 2 |

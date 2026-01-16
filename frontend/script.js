@@ -3,6 +3,8 @@ const statusBox = document.getElementById("status");
 const historyList = document.getElementById("historyList");
 
 btn.addEventListener("click", async () => {
+  console.log("🔥 BUTTON CLICKED");
+
   const input = document.getElementById("url").value.trim();
   const lang = document.getElementById("lang").value;
   const code = document.getElementById("code").value.trim();
@@ -13,6 +15,7 @@ btn.addEventListener("click", async () => {
   }
 
   statusBox.textContent = "⏳ Working on it...\n";
+  console.log("🌐 ABOUT TO SEND REQUEST", { input, lang, code });
 
   try {
     const res = await fetch("http://localhost:3000/push", {
@@ -22,6 +25,8 @@ btn.addEventListener("click", async () => {
     });
 
     const data = await res.json();
+    console.log("📦 FULL RESPONSE FROM BACKEND:", data);
+
     if (!res.ok) throw new Error(data.error || "Push failed");
 
     // ✅ STATUS LOGS
@@ -32,11 +37,12 @@ btn.addEventListener("click", async () => {
       }
     }
 
-    statusBox.textContent += "\n🤖 Successfully pushed to GitHub";
+    statusBox.textContent += "\n🤖 Successfully pushed to GitHub\n";
+    statusBox.textContent += "🧪 TEST LINE\n";
 
-    // ✅ HISTORY ENTRY (NOW WORKS)
+    // ✅ HISTORY ENTRY
     const li = document.createElement("li");
-    li.textContent = `🤖 ${data.data.title} — pushed successfully`;
+    li.textContent = `🤖 ${data?.data?.title || input} — pushed successfully`;
     historyList.prepend(li);
 
   } catch (err) {

@@ -9,6 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/push", async (req, res) => {
+   console.log("📩 REQUEST RECEIVED", req.body);
   try {
     const { input, lang, code } = req.body;
 

@@ -9,3 +9,4 @@
 - [3194-find-words-containing-character](3194-find-words-containing-character/README.md)
 - [5-longest-palindromic-substring](5-longest-palindromic-substring/README.md)
 - [58-length-of-last-word](58-length-of-last-word/README.md)
+- [6-zigzag-conversion](6-zigzag-conversion/README.md)
