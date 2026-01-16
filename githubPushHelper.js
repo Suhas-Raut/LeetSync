@@ -1,38 +1,27 @@
-import fs from "fs";
+import { execSync } from "child_process";
 import path from "path";
-import { Octokit } from "@octokit/rest";
-
-const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
 /**
- * Recursively push a folder to GitHub.
- * Converts Windows backslashes to forward slashes for API.
- * @param {string} localFolder - Local folder path
- * @param {string} repoPath - Path inside the repo
+ * Perform a local Git add, commit, and push for the given folder.
+ * @param {string} problemId
+ * @param {string} problemTitle
  */
-export async function pushFolderRecursive(localFolder, repoPath) {
-  const files = fs.readdirSync(localFolder);
+export function pushProblemLocal(problemId, problemTitle) {
+  try {
+    // Stage all changes
+    execSync("git add .", { stdio: "ignore" });
 
-  for (const file of files) {
-    const fullPath = path.join(localFolder, file);
-    const targetPath = path.posix.join(repoPath.split(path.sep).join("/"), file); // Always forward slash
+    // Commit changes
+    execSync(
+      `git commit -m "📘 LC ${problemId}: ${problemTitle}"`,
+      { stdio: "ignore" }
+    );
 
-    if (fs.statSync(fullPath).isDirectory()) {
-      await pushFolderRecursive(fullPath, targetPath);
-    } else {
-      const content = fs.readFileSync(fullPath, "utf-8");
-      try {
-        await octokit.repos.createOrUpdateFileContents({
-          owner: process.env.GITHUB_REPO.split("/")[0],
-          repo: process.env.GITHUB_REPO.split("/")[1],
-          path: targetPath,
-          message: `📘 Add ${file}`,
-          content: Buffer.from(content).toString("base64"),
-          branch: "main",
-        });
-      } catch (err) {
-        console.error(`❌ Failed to push ${targetPath}:`, err.message);
-      }
-    }
+    // Push to remote main branch
+    execSync("git push origin main", { stdio: "ignore" });
+
+    console.log("🤖 Local git commit and push completed!");
+  } catch (err) {
+    console.log("⚠️ Git commit/push skipped (not a git repo or remote not set)");
   }
-} // <- Make sure this closing brace exists
+}

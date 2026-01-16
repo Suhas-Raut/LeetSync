@@ -8,7 +8,7 @@ import { fetchProblemData } from "./fetchProblem.js";
 import { generateReadme } from "./generateReadme.js";
 import { TAG_TO_DSA } from "./tagMapper.js";
 import { updateRootReadme } from "./updateRootReadme.js";
-import { pushFolderRecursive } from "./githubPushHelper.js"; // updated helper
+import { pushProblemLocal } from "./githubPushHelper.js";
 
 dotenv.config();
 
@@ -52,19 +52,13 @@ async function generateAll(input, lang, code) {
       fs.writeFileSync(path.join(finalPath, "README.md"), readme);
 
       console.log(`✅ Added → ${dsa}/${problemFolder}`);
-
-      // Auto-push entire folder to GitHub if token is available
-      if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) {
-        await pushFolderRecursive(finalPath, `${dsa}/${problemFolder}`);
-        console.log(`🚀 Pushed ${dsa}/${problemFolder} to GitHub`);
-      }
     }
 
     // Update root README/dashboard
     updateRootReadme(problem, dsaFolders);
 
-    // Local git commit
-    autoGitCommit(problem);
+    // Local git commit + push
+    pushProblemLocal(problem.id, problem.title);
 
   } catch (err) {
     console.error("❌ Error:", err.message);
@@ -77,7 +71,6 @@ function resolveDSAFolders(tags = []) {
   const folders = new Set();
 
   for (const tag of tags) {
-    // If tag maps to DSA folder, use it; else Misc
     if (TAG_TO_DSA[tag]) {
       folders.add(TAG_TO_DSA[tag]);
     }
@@ -91,17 +84,4 @@ function slugify(text) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
-}
-
-function autoGitCommit(problem) {
-  try {
-    execSync("git add .");
-    execSync(
-      `git commit -m "📘 LC ${problem.id}: ${problem.title}"`,
-      { stdio: "ignore" }
-    );
-    console.log("🤖 Local git commit created automatically!");
-  } catch {
-    console.log("⚠️ Git commit skipped (not a git repo)");
-  }
 }
