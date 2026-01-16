@@ -15,3 +15,4 @@ id,title,difficulty,tags
 2,Add Two Numbers,Medium,Linked List|Math|Recursion
 3,Longest Substring Without Repeating Characters,Medium,Hash Table|String|Sliding Window
 1791,Richest Customer Wealth,Easy,Array|Matrix
+2732,Counter,Easy,
