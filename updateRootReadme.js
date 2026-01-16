@@ -1,67 +1,56 @@
 import fs from "fs";
 import path from "path";
 
-/**
- * Incrementally update the root README without losing old counts.
- * @param {object} problem - { id, title, difficulty, tags: [] }
- */
+const TRACKER_FILE = path.join(process.cwd(), ".leetsync.json");
+const ROOT_README = path.join(process.cwd(), "README.md");
+
 export function updateRootReadme(problem) {
-  const readmePath = path.join(process.cwd(), "README.md");
+  let tracker = {
+    problems: [],
+    counts: { Easy: 0, Medium: 0, Hard: 0, DSA: {} }
+  };
 
-  // Initialize counts if README doesn't exist
-  let content = "";
-  let difficultyCount = { Easy: 0, Medium: 0, Hard: 0 };
-  let dsaCount = {};
-
-  if (fs.existsSync(readmePath)) {
-    content = fs.readFileSync(readmePath, "utf-8");
-
-    // Read difficulty table
-    const diffRegex = /\| Easy\s*\|\s*(\d+)/i;
-    const medRegex = /\| Medium\s*\|\s*(\d+)/i;
-    const hardRegex = /\| Hard\s*\|\s*(\d+)/i;
-
-    difficultyCount.Easy = diffRegex.test(content) ? parseInt(content.match(diffRegex)[1]) : 0;
-    difficultyCount.Medium = medRegex.test(content) ? parseInt(content.match(medRegex)[1]) : 0;
-    difficultyCount.Hard = hardRegex.test(content) ? parseInt(content.match(hardRegex)[1]) : 0;
-
-    // Read DSA table
-    const dsaRegex = /\| ([\w-]+) \| (\d+) \|/g;
-    let match;
-    while ((match = dsaRegex.exec(content)) !== null) {
-      dsaCount[match[1]] = parseInt(match[2]);
-    }
+  // ✅ Load existing tracker if exists
+  if (fs.existsSync(TRACKER_FILE)) {
+    tracker = JSON.parse(fs.readFileSync(TRACKER_FILE, "utf-8"));
   }
 
-  // Increment difficulty
-  if (problem.difficulty && difficultyCount[problem.difficulty] != null) {
-    difficultyCount[problem.difficulty]++;
+  // Check if problem already exists
+  if (!tracker.problems.some(p => p.id === problem.id)) {
+    tracker.problems.push({
+      id: problem.id,
+      title: problem.title,
+      difficulty: problem.difficulty,
+      tags: problem.tags
+    });
+
+    // Increment difficulty count
+    tracker.counts[problem.difficulty] = (tracker.counts[problem.difficulty] || 0) + 1;
+
+    // Increment DSA counts
+    problem.tags.forEach(tag => {
+      tracker.counts.DSA[tag] = (tracker.counts.DSA[tag] || 0) + 1;
+    });
+
+    // Save updated tracker
+    fs.writeFileSync(TRACKER_FILE, JSON.stringify(tracker, null, 2));
   }
 
-  // Increment DSA topic counts
-  for (const tag of problem.tags) {
-    if (!dsaCount[tag]) dsaCount[tag] = 0;
-    dsaCount[tag]++;
+  // Generate README from tracker
+  const lines = [];
+  lines.push("# 📘 LeetCode Progress Tracker\n");
+  lines.push("## Difficulty\n");
+  lines.push("| Level | Count |");
+  lines.push("|-------|-------|");
+  lines.push(`| Easy | ${tracker.counts.Easy} |`);
+  lines.push(`| Medium | ${tracker.counts.Medium} |`);
+  lines.push(`| Hard | ${tracker.counts.Hard} |`);
+  lines.push("\n## DSA Topics\n");
+  lines.push("| Topic | Count |");
+  lines.push("|-------|-------|");
+  for (const [tag, count] of Object.entries(tracker.counts.DSA)) {
+    lines.push(`| ${tag} | ${count} |`);
   }
 
-  // Build updated README
-  let newReadme = `# 📘 LeetCode Progress Tracker
-
-## Difficulty
-| Level | Count |
-|-------|-------|
-| Easy  | ${difficultyCount.Easy} |
-| Medium| ${difficultyCount.Medium} |
-| Hard  | ${difficultyCount.Hard} |
-
-## DSA
-| Topic | Count |
-`;
-
-  for (const [topic, count] of Object.entries(dsaCount)) {
-    newReadme += `| ${topic} | ${count} |\n`;
-  }
-
-  fs.writeFileSync(readmePath, newReadme);
-  console.log("✅ Root README updated incrementally!");
+  fs.writeFileSync(ROOT_README, lines.join("\n"));
 }
