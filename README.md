@@ -6,7 +6,7 @@
 
 | Level | Count |
 |-------|-------|
-| Easy | 1 |
+| Easy | 2 |
 | Medium | 0 |
 | Hard | 0 |
 
@@ -16,3 +16,5 @@
 |-------|-------|
 | Array | 1 |
 | Hash Table | 1 |
+| Two Pointers | 1 |
+| String | 1 |
