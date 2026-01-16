@@ -73,12 +73,10 @@ readme += "| Level | Count |\n|-------|-------|\n";
 readme += "\n### DSA Topics\n\n";
 readme += "| Topic | Count |\n|-------|-------|\n";
 
-const REPO_BASE = "https://github.com/Suhas-Raut/LeetSync/tree/main/Leetcode%20DSA";
-
 Object.entries(counts.tags).forEach(([tag, count]) => {
-  const folderLink = `${REPO_BASE}/${encodeURIComponent(tag)}`;
-  readme += `| [${tag}](${folderLink}) | ${count} |\n`;
+  readme += `| ${tag} | ${count} |\n`; // ✅ plain text, no link
 });
+
 
 fs.writeFileSync(path.join(process.cwd(), "README.md"), readme);
 
