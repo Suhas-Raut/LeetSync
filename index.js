@@ -32,12 +32,7 @@ export async function generateAll(input, lang, code) {
     }
 
     // ---- HERE is where we update the root README via tracker JSON ----
-    updateRootReadme({
-      id: problem.id,
-      title: problem.title,
-      difficulty: problem.difficulty,
-      tags: problem.tags
-    });
+    updateRootReadme(problem);
 
     // Push locally via Git
     pushProblemLocal(problem.id, problem.title);

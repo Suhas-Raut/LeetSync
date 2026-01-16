@@ -1,46 +1,53 @@
-import db from './db.js';
-import fs from 'fs';
-
 export function updateRootReadme(problem) {
-  // Insert or ignore problem
-  const tagsString = problem.tags.join(',');
-  const insert = db.prepare(`
-    INSERT OR IGNORE INTO problems (id, title, difficulty, tags) 
-    VALUES (?, ?, ?, ?)
-  `);
-  insert.run(problem.id, problem.title, problem.difficulty, tagsString);
+  // Read CSV into array
+  const data = fs.readFileSync(TRACKER_FILE, "utf-8")
+    .trim()
+    .split("\n")
+    .slice(1)
+    .map(line => {
+      const [id, title, difficulty, tags] = line.split(",");
+      return { id, title, difficulty, tags: tags.split("|") };
+    });
 
-  // Update difficulty counter
-  const diffCounter = db.prepare('SELECT count FROM counters WHERE difficulty = ?').get(problem.difficulty);
-  if (diffCounter) {
-    db.prepare('UPDATE counters SET count = count + 1 WHERE difficulty = ?').run(problem.difficulty);
-  } else {
-    db.prepare('INSERT INTO counters (difficulty, count) VALUES (?, 1)').run(problem.difficulty);
+  // Add new problem if not already present
+  if (!data.find(p => p.id === problem.id)) {
+    fs.appendFileSync(
+      TRACKER_FILE,
+      `\n${problem.id},${problem.title},${problem.difficulty},${problem.tags.join("|")}`
+    );
+    data.push({
+      id: problem.id,
+      title: problem.title,
+      difficulty: problem.difficulty,
+      tags: problem.tags
+    });
   }
 
-  // Update tag counters
-  problem.tags.forEach(tag => {
-    const tagCounter = db.prepare('SELECT count FROM tag_counts WHERE tag = ?').get(tag);
-    if (tagCounter) {
-      db.prepare('UPDATE tag_counts SET count = count + 1 WHERE tag = ?').run(tag);
-    } else {
-      db.prepare('INSERT INTO tag_counts (tag, count) VALUES (?, 1)').run(tag);
-    }
+  // Count totals
+  const counts = data.reduce((acc, p) => {
+    acc.difficulty[p.difficulty] = (acc.difficulty[p.difficulty] || 0) + 1;
+    p.tags.forEach(t => (acc.tags[t] = (acc.tags[t] || 0) + 1));
+    return acc;
+  }, { difficulty: {}, tags: {} });
+
+  // Generate README content
+  let readmeContent = "# 📘 LeetCode Progress Tracker\n\n";
+
+  // Difficulty table
+  readmeContent += "## Difficulty\n\n";
+  readmeContent += "| Level | Count |\n";
+  readmeContent += "|-------|-------|\n";
+  ["Easy", "Medium", "Hard"].forEach(level => {
+    readmeContent += `| ${level} | ${counts.difficulty[level] || 0} |\n`;
   });
 
-  // Build README.md dynamically
-  const counters = db.prepare('SELECT * FROM counters').all();
-  const tags = db.prepare('SELECT * FROM tag_counts').all();
+  // DSA Topics table
+  readmeContent += "\n## DSA\n\n";
+  readmeContent += "| Topic | Count |\n";
+  readmeContent += "|-------|-------|\n";
+  for (const [tag, count] of Object.entries(counts.tags)) {
+    readmeContent += `| ${tag} | ${count} |\n`;
+  }
 
-  let content = `# 📘 LeetCode Progress Tracker\n\n## Difficulty\n\n| Level | Count |\n|-------|-------|\n`;
-  counters.forEach(row => {
-    content += `| ${row.difficulty} | ${row.count} |\n`;
-  });
-
-  content += `\n## DSA Topics\n\n| Topic | Count |\n|-------|-------|\n`;
-  tags.forEach(row => {
-    content += `| ${row.tag} | ${row.count} |\n`;
-  });
-
-  fs.writeFileSync('README.md', content);
+  fs.writeFileSync(path.join(process.cwd(), "README.md"), readmeContent);
 }
