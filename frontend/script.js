@@ -1,3 +1,8 @@
+console.log("🟢 SCRIPT LOADED");
+window.addEventListener("beforeunload", () => {
+  console.log("🔴 PAGE IS RELOADING");
+});
+
 const btn = document.getElementById("submitBtn");
 const statusBox = document.getElementById("status");
 const historyList = document.getElementById("historyList");
