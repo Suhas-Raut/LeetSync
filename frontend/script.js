@@ -12,7 +12,7 @@ btn.addEventListener("click", async () => {
     return;
   }
 
-  // Reset UI
+  // Reset UI ONCE
   statusBox.textContent = "⏳ Processing logs...\n";
   successLog.textContent = "";
 
@@ -26,23 +26,30 @@ btn.addEventListener("click", async () => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Push failed");
 
-    // 🟡 Print logs slowly (no refresh)
+    // 🟡 Print backend logs slowly
     if (Array.isArray(data.logs)) {
       for (const line of data.logs) {
         statusBox.textContent += line + "\n";
-        await new Promise(r => setTimeout(r, 500)); // 500ms (smooth)
+        await new Promise(r => setTimeout(r, 500)); // smooth typing
       }
-    } else {
-      statusBox.textContent += "⚠️ No logs received from backend\n";
     }
 
-    // 🟢 Success glow AFTER logs finish
-    successLog.textContent = `✅ Code successfully pushed: "${data?.data?.title || "Unknown"}"`;
+    // 🛑 STOP status log here (nothing overwrites it)
+
+    // 🤖 Success message
+    successLog.textContent = "🤖 Successfully pushed to GitHub";
     successLog.classList.add("success-glow");
 
+    // ⏳ Wait 10 seconds
+    await new Promise(r => setTimeout(r, 10000));
+
+    // ✅ Done message
+    successLog.textContent = "✅ Done published";
+
+    // 🔁 OPTIONAL: refresh after 2s
     setTimeout(() => {
-      successLog.classList.remove("success-glow");
-    }, 3000);
+      location.reload();
+    }, 2000);
 
   } catch (err) {
     successLog.textContent = `❌ FAILED to push code\n${err.message}`;
