@@ -18,11 +18,8 @@ app.post("/push", async (req, res) => {
 
     const result = await generateAll(input, lang, code);
 
-    res.json({
-      success: true,
-      message: "Problem pushed successfully",
-      data: result
-    });
+    // ✅ SEND LOGS DIRECTLY TO FRONTEND
+    res.json(result);
 
   } catch (err) {
     res.status(500).json({ error: err.message });

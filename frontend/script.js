@@ -11,7 +11,7 @@ btn.addEventListener("click", async () => {
     return;
   }
 
-  statusBox.textContent = "⏳ Processing...";
+  statusBox.textContent = "⏳ Processing...\n";
 
   try {
     const res = await fetch("http://localhost:3000/push", {
@@ -21,29 +21,32 @@ btn.addEventListener("click", async () => {
     });
 
     const data = await res.json();
-
     if (!res.ok) throw new Error(data.error);
 
-    // Update status box
-    statusBox.textContent =
-      `✅ Pushed!\n\n` +
-      `ID: ${data.data.id}\n` +
-      `Title: ${data.data.title}\n` +
-      `Difficulty: ${data.data.difficulty}`;
+    // 🧹 Clear first
+    statusBox.textContent = "";
 
-    // ✅ Call the notification function here
+    // ✅ PRINT BACKEND LOGS
+    if (Array.isArray(data.logs)) {
+      data.logs.forEach(line => {
+        statusBox.textContent += line + "\n";
+      });
+    } else {
+      statusBox.textContent = "⚠️ No logs received from backend";
+    }
+
+    // 🔔 Notifications
     showSuccessNotification(data.data);
     showToast(`✅ ${data.data.title} pushed to GitHub`);
-
 
   } catch (err) {
     statusBox.textContent = "❌ " + err.message;
   }
 });
 
-/* ------------------ Notification Function ------------------ */
+/* ------------------ Desktop Notification ------------------ */
 function showSuccessNotification(problem) {
-  if (!("Notification" in window)) return; // Browser doesn't support
+  if (!("Notification" in window)) return;
 
   if (Notification.permission === "granted") {
     new Notification("LeetSync ✅", {
@@ -62,7 +65,7 @@ function showSuccessNotification(problem) {
   }
 }
 
-
+/* ------------------ Toast ------------------ */
 function showToast(message) {
   const toast = document.getElementById("toast");
 
@@ -71,10 +74,6 @@ function showToast(message) {
 
   setTimeout(() => {
     toast.classList.remove("show");
-    setTimeout(() => {
-      toast.classList.add("hidden");
-    }, 300);
+    setTimeout(() => toast.classList.add("hidden"), 300);
   }, 3000);
-
-  return true; // 👈 optional
 }

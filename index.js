@@ -14,12 +14,18 @@ import { TAG_TO_DSA } from "./scripts/tagMapper.js";
 dotenv.config();
 
 export async function generateAll(input, lang, code) {
+  const logs = []; // 👈 collect logs here
+
+  const log = (msg) => {
+    console.log(msg);   // terminal
+    logs.push(msg);     // frontend
+  };
+
   try {
     const problem = await fetchProblemData(input);
-    
+
     const problemFolder = `${problem.id}-${slugify(problem.title)}`;
     const dsaFolders = resolveDSAFolders(problem.tags);
-
     const ROOT_DSA_FOLDER = "Leetcode DSA";
 
     for (const dsa of dsaFolders) {
@@ -30,26 +36,32 @@ export async function generateAll(input, lang, code) {
 
       const readme = generateReadme(problem, code, lang);
       fs.writeFileSync(path.join(finalPath, "README.md"), readme);
-        updateTopicReadme(problem);
 
-      console.log(`✅ Added → ${ROOT_DSA_FOLDER}/${dsa}/${problemFolder}`);
+      log(`✅ Added → ${ROOT_DSA_FOLDER}/${dsa}/${problemFolder}`);
     }
 
+    log("🤖 Local git commit and push completed!");
+
     updateRootReadme(problem);
+    updateTopicReadme(problem);
     pushProblemLocal(problem.id, problem.title);
 
     return {
-      id: problem.id,
-      title: problem.title,
-      difficulty: problem.difficulty,
-      tags: problem.tags
+      success: true,
+      data: {
+        id: problem.id,
+        title: problem.title,
+        difficulty: problem.difficulty,
+      },
+      logs // 👈 SEND LOGS
     };
 
   } catch (err) {
-    console.error("❌ Error in generateAll:", err.message);
+    log(`❌ Error: ${err.message}`);
     throw err;
   }
 }
+
 
 
 /* ---------------- HELPERS ---------------- */
