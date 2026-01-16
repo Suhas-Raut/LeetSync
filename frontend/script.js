@@ -11,6 +11,7 @@ btn.addEventListener("click", async () => {
     return;
   }
 
+  // Reset status log
   statusBox.textContent = "⏳ Processing...\n";
 
   try {
@@ -20,62 +21,24 @@ btn.addEventListener("click", async () => {
       body: JSON.stringify({ input, lang, code })
     });
 
-const data = await res.json();
-console.log("BACKEND RESPONSE 👉", data);
+    const data = await res.json();
 
-if (!res.ok) throw new Error(data.error);
+    if (!res.ok) {
+      throw new Error(data.error || "Backend error");
+    }
 
-// clear
-statusBox.textContent = "";
+    // ✅ SUCCESS LOG BOX (terminal-style)
+    statusBox.textContent = "";
 
-// print backend logs
-if (Array.isArray(data.logs)) {
-  data.logs.forEach(line => {
-    statusBox.textContent += line + "\n";
-  });
-} else {
-  statusBox.textContent = "⚠️ No logs received from backend";
-}
-
-showSuccessNotification(data.data);
-showToast(`✅ ${data.data.title} pushed to GitHub`);
-
+    if (Array.isArray(data.logs)) {
+      data.logs.forEach(line => {
+        statusBox.textContent += line + "\n";
+      });
+    } else {
+      statusBox.textContent = "⚠️ No logs received from backend";
+    }
 
   } catch (err) {
     statusBox.textContent = "❌ " + err.message;
   }
 });
-
-/* ------------------ Desktop Notification ------------------ */
-function showSuccessNotification(problem) {
-  if (!("Notification" in window)) return;
-
-  if (Notification.permission === "granted") {
-    new Notification("LeetSync ✅", {
-      body: `Problem "${problem.title}" successfully pushed to GitHub!`,
-      icon: "favicon.png",
-    });
-  } else if (Notification.permission !== "denied") {
-    Notification.requestPermission().then(permission => {
-      if (permission === "granted") {
-        new Notification("LeetSync ✅", {
-          body: `Problem "${problem.title}" successfully pushed to GitHub!`,
-          icon: "favicon.png",
-        });
-      }
-    });
-  }
-}
-
-/* ------------------ Toast ------------------ */
-function showToast(message) {
-  const toast = document.getElementById("toast");
-
-  toast.textContent = message;
-  toast.className = "toast success show";
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-    setTimeout(() => toast.classList.add("hidden"), 300);
-  }, 3000);
-}

@@ -19,7 +19,11 @@ app.post("/push", async (req, res) => {
     const result = await generateAll(input, lang, code);
 
     // ✅ SEND LOGS DIRECTLY TO FRONTEND
-    res.json(result);
+    res.json({
+  success: true,
+  logs: result.logs,   // 👈 array of strings
+});
+
 
   } catch (err) {
     res.status(500).json({ error: err.message });

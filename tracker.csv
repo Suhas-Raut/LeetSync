@@ -11,3 +11,4 @@ id,title,difficulty,tags
 13,Roman to Integer,Easy,Hash Table|Math|String
 14,Longest Common Prefix,Easy,Array|String|Trie
 64,Minimum Path Sum,Medium,Array|Dynamic Programming|Matrix
+1603,Running Sum of 1d Array,Easy,Array|Prefix Sum
