@@ -4,15 +4,15 @@
 ## Difficulty
 | Level | Count |
 |------|-------|
-| Easy | 1 |
+| Easy | 0 |
 | Medium | 0 |
-| Hard | 0 |
+| Hard | 1 |
 
 ## DSA
 | Topic | Count |
 |------|-------|
 | Arrays | 1 |
-| Dynamic-Programming | 1 |
+| Binary-Search | 1 |
 
 ---
 _Updated automatically by **LeetSync** 🚀_
