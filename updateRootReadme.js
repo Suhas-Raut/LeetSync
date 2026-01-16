@@ -1,56 +1,46 @@
-import fs from "fs";
-import path from "path";
-
-const TRACKER_FILE = path.join(process.cwd(), ".leetsync.json");
-const ROOT_README = path.join(process.cwd(), "README.md");
+import db from './db.js';
+import fs from 'fs';
 
 export function updateRootReadme(problem) {
-  let tracker = {
-    problems: [],
-    counts: { Easy: 0, Medium: 0, Hard: 0, DSA: {} }
-  };
+  // Insert or ignore problem
+  const tagsString = problem.tags.join(',');
+  const insert = db.prepare(`
+    INSERT OR IGNORE INTO problems (id, title, difficulty, tags) 
+    VALUES (?, ?, ?, ?)
+  `);
+  insert.run(problem.id, problem.title, problem.difficulty, tagsString);
 
-  // ✅ Load existing tracker if exists
-  if (fs.existsSync(TRACKER_FILE)) {
-    tracker = JSON.parse(fs.readFileSync(TRACKER_FILE, "utf-8"));
+  // Update difficulty counter
+  const diffCounter = db.prepare('SELECT count FROM counters WHERE difficulty = ?').get(problem.difficulty);
+  if (diffCounter) {
+    db.prepare('UPDATE counters SET count = count + 1 WHERE difficulty = ?').run(problem.difficulty);
+  } else {
+    db.prepare('INSERT INTO counters (difficulty, count) VALUES (?, 1)').run(problem.difficulty);
   }
 
-  // Check if problem already exists
-  if (!tracker.problems.some(p => p.id === problem.id)) {
-    tracker.problems.push({
-      id: problem.id,
-      title: problem.title,
-      difficulty: problem.difficulty,
-      tags: problem.tags
-    });
+  // Update tag counters
+  problem.tags.forEach(tag => {
+    const tagCounter = db.prepare('SELECT count FROM tag_counts WHERE tag = ?').get(tag);
+    if (tagCounter) {
+      db.prepare('UPDATE tag_counts SET count = count + 1 WHERE tag = ?').run(tag);
+    } else {
+      db.prepare('INSERT INTO tag_counts (tag, count) VALUES (?, 1)').run(tag);
+    }
+  });
 
-    // Increment difficulty count
-    tracker.counts[problem.difficulty] = (tracker.counts[problem.difficulty] || 0) + 1;
+  // Build README.md dynamically
+  const counters = db.prepare('SELECT * FROM counters').all();
+  const tags = db.prepare('SELECT * FROM tag_counts').all();
 
-    // Increment DSA counts
-    problem.tags.forEach(tag => {
-      tracker.counts.DSA[tag] = (tracker.counts.DSA[tag] || 0) + 1;
-    });
+  let content = `# 📘 LeetCode Progress Tracker\n\n## Difficulty\n\n| Level | Count |\n|-------|-------|\n`;
+  counters.forEach(row => {
+    content += `| ${row.difficulty} | ${row.count} |\n`;
+  });
 
-    // Save updated tracker
-    fs.writeFileSync(TRACKER_FILE, JSON.stringify(tracker, null, 2));
-  }
+  content += `\n## DSA Topics\n\n| Topic | Count |\n|-------|-------|\n`;
+  tags.forEach(row => {
+    content += `| ${row.tag} | ${row.count} |\n`;
+  });
 
-  // Generate README from tracker
-  const lines = [];
-  lines.push("# 📘 LeetCode Progress Tracker\n");
-  lines.push("## Difficulty\n");
-  lines.push("| Level | Count |");
-  lines.push("|-------|-------|");
-  lines.push(`| Easy | ${tracker.counts.Easy} |`);
-  lines.push(`| Medium | ${tracker.counts.Medium} |`);
-  lines.push(`| Hard | ${tracker.counts.Hard} |`);
-  lines.push("\n## DSA Topics\n");
-  lines.push("| Topic | Count |");
-  lines.push("|-------|-------|");
-  for (const [tag, count] of Object.entries(tracker.counts.DSA)) {
-    lines.push(`| ${tag} | ${count} |`);
-  }
-
-  fs.writeFileSync(ROOT_README, lines.join("\n"));
+  fs.writeFileSync('README.md', content);
 }
