@@ -7,7 +7,7 @@
 | Level | Count |
 |-------|-------|
 | Easy | 15 |
-| Medium | 5 |
+| Medium | 6 |
 | Hard | 1 |
 
 ### DSA Topics
@@ -16,7 +16,7 @@
 |-------|-------|
 | Array | 11 |
 | Hash Table | 1 |
-| Two Pointers | 2 |
+| Two Pointers | 3 |
 | String | 2 |
 | Binary Search | 2 |
 | Divide and Conquer | 1 |
@@ -27,9 +27,9 @@
 | Math | 1 |
 | Hash Table | 2 |
 | Math | 2 |
-| String | 2 |
+| String | 3 |
 | Trie | 1 |
-| Dynamic Programming | 1 |
+| Dynamic Programming | 2 |
 | Matrix | 2 |
 | Prefix Sum | 1 |
 | Sliding Window | 1 |
