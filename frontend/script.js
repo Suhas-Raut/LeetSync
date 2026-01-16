@@ -37,6 +37,17 @@ btn.addEventListener("click", async () => {
 
     // 🔥 Print ONLY success message in successLog
     successLog.textContent = `✅ Code successfully pushed: "${data.data.title}"`;
+    // 🔥 Print ONLY success message in successLog
+successLog.textContent = `✅ Code successfully pushed: "${data.data.title}"`;
+
+// Add green glow class
+successLog.classList.add("success-glow");
+
+// Remove glow after 3s (optional fade)
+setTimeout(() => {
+  successLog.classList.remove("success-glow");
+}, 3000);
+
 
   } catch (err) {
     successLog.textContent = `❌ FAILED to push code\n${err.message}`;
