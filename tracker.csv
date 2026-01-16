@@ -9,3 +9,4 @@ id,title,difficulty,tags
 792,Binary Search,Easy,Array|Binary Search
 2556,Convert the Temperature,Easy,Math
 13,Roman to Integer,Easy,Hash Table|Math|String
+14,Longest Common Prefix,Easy,Array|String|Trie
