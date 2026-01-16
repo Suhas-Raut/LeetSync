@@ -40,11 +40,11 @@ export async function generateAll(input, lang, code) {
       log(`✅ Added → ${ROOT_DSA_FOLDER}/${dsa}/${problemFolder}`);
     }
 
-    log("🤖 Local git commit and push completed!");
 
     updateRootReadme(problem);
     updateTopicReadme(problem);
     pushProblemLocal(problem.id, problem.title);
+    log("🤖 Local git commit and push completed!");
 
     return {
       success: true,

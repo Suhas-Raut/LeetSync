@@ -22,6 +22,7 @@ app.post("/push", async (req, res) => {
     res.json({
   success: true,
   logs: result.logs,   // 👈 array of strings
+  data: result.data  
 });
 
 

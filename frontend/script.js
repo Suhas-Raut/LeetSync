@@ -24,18 +24,19 @@ btn.addEventListener("click", async () => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Push failed");
 
+    // ✅ STATUS LOGS
     if (Array.isArray(data.logs)) {
-      for (const log of data.logs) {
-        statusBox.textContent += log + "\n";
+      for (const line of data.logs) {
+        statusBox.textContent += line + "\n";
         await new Promise(r => setTimeout(r, 400));
       }
     }
 
     statusBox.textContent += "\n🤖 Successfully pushed to GitHub";
 
-    // HISTORY ENTRY
+    // ✅ HISTORY ENTRY (NOW WORKS)
     const li = document.createElement("li");
-    li.textContent = `🤖 ${data?.data?.title || input} — pushed successfully`;
+    li.textContent = `🤖 ${data.data.title} — pushed successfully`;
     historyList.prepend(li);
 
   } catch (err) {
