@@ -26,28 +26,24 @@ btn.addEventListener("click", async () => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
 
-    // ✅ Print backend logs in statusBox
+    // ✅ Print backend logs in statusBox with 500ms delay
     if (Array.isArray(data.logs)) {
-      data.logs.forEach(line => {
+      for (const line of data.logs) {
         statusBox.textContent += line + "\n";
-      });
+        await new Promise(resolve => setTimeout(resolve, 500)); // 500ms delay
+      }
     } else {
       statusBox.textContent += "⚠️ No logs received from backend\n";
     }
 
-    // 🔥 Print ONLY success message in successLog
+    // 🔥 Success message with green glow
     successLog.textContent = `✅ Code successfully pushed: "${data.data.title}"`;
-    // 🔥 Print ONLY success message in successLog
-successLog.textContent = `✅ Code successfully pushed: "${data.data.title}"`;
+    successLog.classList.add("success-glow");
 
-// Add green glow class
-successLog.classList.add("success-glow");
-
-// Remove glow after 3s (optional fade)
-setTimeout(() => {
-  successLog.classList.remove("success-glow");
-}, 3000);
-
+    // Remove glow after 3s
+    setTimeout(() => {
+      successLog.classList.remove("success-glow");
+    }, 3000);
 
   } catch (err) {
     successLog.textContent = `❌ FAILED to push code\n${err.message}`;

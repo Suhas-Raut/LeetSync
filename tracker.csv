@@ -16,3 +16,4 @@ id,title,difficulty,tags
 3,Longest Substring Without Repeating Characters,Medium,Hash Table|String|Sliding Window
 1791,Richest Customer Wealth,Easy,Array|Matrix
 9,Palindrome Number,Easy,Math
+3194,Find Words Containing Character,Easy,Array|String
