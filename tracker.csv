@@ -3,3 +3,4 @@ id,title,difficulty,tags
 4,Median of Two Sorted Arrays,Hard,Binary-Search
 3,Longest Substring Without Repeating Characters,Medium,Hash Table|String|Sliding Window
 2,Add Two Numbers,Medium,Linked List|Math|Recursion
+206,Reverse Linked List,Easy,Linked List|Recursion
