@@ -1,0 +1,164 @@
+/* Global */
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #ffffff;
+}
+
+header {
+  text-align: center;
+  padding: 2rem;
+  color: #fff;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+header .subtitle {
+  font-size: 1rem;
+  opacity: 0.85;
+  margin-top: 0.5rem;
+}
+
+/* Layout */
+main {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Cards */
+.card {
+  background: #57575768;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #e5cbff;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+
+input,
+select, textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  border: 1px solid #c0c0c0;
+  outline: none;
+  font-family: monospace;
+}
+
+
+.card-space {
+  background-color: #1900316f;}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+}
+
+button {
+  width: 100%;
+  padding: 0.8rem;
+  background: #1531af;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:hover {
+  background: #5a67d8;
+}
+
+/* Status card */
+.status-card pre {
+  background: #19003139;
+  padding: 1rem;
+  border: 1px solid #c0c0c0;
+  border-radius: 0.6rem;
+  height: 300px;
+  overflow-y: auto;
+}
+
+/* Stats Card */
+.stats-grid {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.stats-grid div {
+  background: #c76e6e;
+  border-radius: 0.6rem;
+  padding: 1rem;
+  text-align: center;
+  flex: 1;
+  margin-right: 0.5rem;
+}
+
+.easy{
+   background: #2dbe13 !important;
+}
+.medium{
+  background: #d2a51f !important;
+}
+.hard{
+ background: #e23b3b !important;
+
+}
+.stats-grid div:last-child {
+  margin-right: 0;
+}
+
+.dsa-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dsa-grid div {
+  background: #e2e8f0;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  color: #fff;
+  opacity: 0.7;
+}

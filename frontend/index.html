@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeetSync Premium Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>LeetSync Dashboard</h1>
+    <p class="subtitle">Track problems, submit code, and push to GitHub in style</p>
+  </header>
+
+  <main>
+    <section class="dashboard">
+      <div class="card input-card">
+        <h2>Submit New Problem</h2>
+        <label for="url">LeetCode URL / Problem Number</label>
+        <input class="card-space" type="text" id="url" placeholder="121 or https://leetcode.com/problems/...">
+
+        <label for="lang">Language</label>
+        <select class="card-space" id="lang">
+          <option value="cpp">C++</option>
+          <option value="js">JavaScript</option>
+          <option value="python">Python</option>
+        </select>
+
+        <label for="code">Solution Code</label>
+        <textarea class="card-space" id="code" rows="10" placeholder="Paste your code here"></textarea>
+
+        <button id="submitBtn">Submit Problem</button>
+      </div>
+
+      <div class="card status-card">
+        <h2>Status Log</h2>
+        <pre id="status">Awaiting input...</pre>
+      </div>
+
+      <div class="card stats-card">
+        <h2>Progress Tracker</h2>
+        <div class="stats-grid">
+          <div class="easy">
+            <h3 >Easy</h3>
+            <p id="easyCount">0</p>
+          </div>
+          <div class="medium">
+            <h3 >Medium</h3>
+            <p id="mediumCount">0</p>
+          </div>
+          <div class="hard" >
+            <h3>Hard</h3>
+            <p id="hardCount">0</p>
+          </div>
+        </div>
+
+        <h3>DSA Topics</h3>
+        <div class="dsa-grid" id="dsaStats">
+          <!-- Filled dynamically -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>LeetSync &copy; 2026 | Built with 💜 by you</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

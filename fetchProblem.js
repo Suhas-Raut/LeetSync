@@ -1,9 +1,19 @@
 import axios from "axios";
 
+/**
+ * Fetch problem data from LeetCode by number or URL
+ * @param {string} input - Problem number or full LeetCode URL
+ * @returns {Promise<Object>} Problem info
+ */
 export async function fetchProblemData(input) {
-  const slug = isNumber(input)
-    ? await slugFromNumber(input)
-    : extractSlug(input);
+  let slug;
+
+  if (isNumber(input)) {
+    // Get slug dynamically by number
+    slug = await slugFromNumberDynamic(input);
+  } else {
+    slug = extractSlug(input);
+  }
 
   const query = {
     query: `
@@ -32,6 +42,10 @@ export async function fetchProblemData(input) {
     }
   );
 
+  if (!data?.data?.question) {
+    throw new Error("❌ Could not fetch problem. Check the input.");
+  }
+
   const q = data.data.question;
 
   return {
@@ -43,6 +57,8 @@ export async function fetchProblemData(input) {
   };
 }
 
+/* ------------------ HELPERS ------------------ */
+
 function extractSlug(url) {
   const m = url.match(/problems\/([^/]+)/);
   if (!m) throw new Error("Invalid LeetCode URL");
@@ -53,13 +69,19 @@ function isNumber(val) {
   return /^\d+$/.test(val);
 }
 
-/* Minimal mapping (extend later) */
-async function slugFromNumber(num) {
-  const map = {
-    "121": "best-time-to-buy-and-sell-stock"
-  };
-  if (!map[num]) throw new Error("Problem number not mapped yet");
-  return map[num];
+/**
+ * Dynamically get slug from problem number
+ * @param {string} num - problem number
+ */
+async function slugFromNumberDynamic(num) {
+  // LeetCode question list API
+  const { data } = await axios.get("https://leetcode.com/api/problems/all/");
+  const questions = data.stat_status_pairs;
+
+  const problem = questions.find(q => q.stat.question_id.toString() === num);
+  if (!problem) throw new Error("❌ Problem number not found on LeetCode");
+
+  return problem.stat.question__title_slug;
 }
 
 function htmlToText(html) {
