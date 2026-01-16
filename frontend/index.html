@@ -1,62 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LeetSync Premium Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>LeetSync</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <header>
-    <h1>LeetSync Dashboard</h1>
-    <p class="subtitle">Track problems, submit code, and push to GitHub in style</p>
+    <h1>LeetSync</h1>
+    <p>Push LeetCode solutions to GitHub like a pro 🤖</p>
   </header>
 
-  <main>
-    <section class="dashboard">
-      <div class="card input-card">
-        <h2>Submit New Problem</h2>
-        <label for="url">LeetCode URL / Problem Number</label>
-        <input class="card-space" type="text" id="url" placeholder="121 or https://leetcode.com/problems/...">
+  <main class="container">
 
-        <label for="lang">Language</label>
-        <select class="card-space" id="lang">
-          <option value="cpp">C++</option>
-          <option value="js">JavaScript</option>
-          <option value="python">Python</option>
-        </select>
+    <!-- CARD 1 -->
+    <div class="card">
+      <h2>Submit Problem</h2>
 
-        <label for="code">Solution Code</label>
-        <textarea class="card-space" id="code" rows="10" placeholder="Paste your code here"></textarea>
+      <input id="url" placeholder="LeetCode URL or Problem Number" />
 
-        <button id="submitBtn">Submit Problem</button>
-      </div>
+      <select id="lang">
+        <option value="cpp">C++</option>
+        <option value="js">JavaScript</option>
+        <option value="python">Python</option>
+      </select>
 
-      <div class="card status-card">
-        <h2>Status Log</h2>
-        <pre id="status">Awaiting input...</pre>
-      </div>
+      <textarea id="code" placeholder="// Paste your code here"></textarea>
 
-  <div id="toast" class="toast hidden"></div>
+      <button id="submitBtn">Submit</button>
+    </div>
 
-      <div class="card success-card">
-  <h2>Success Log</h2>
-  <pre id="successLog">No activity yet...</pre>
-</div>
+    <!-- CARD 2 -->
+    <div class="card">
+      <h2>Status</h2>
+      <pre id="status">Waiting for submission...</pre>
+    </div>
 
-
-          <!-- Filled dynamically -->
-        </div>
-      </div>
-    </section>
   </main>
 
-  <footer>
-    <p>LeetSync &copy; 2026 | Built with 💜 by you</p>
-  </footer>
-
+  <!-- HISTORY -->
+  <section class="history">
+    <h2>Uploaded Problems</h2>
+    <ul id="historyList"></ul>
+  </section>
 
   <script src="script.js"></script>
-
 </body>
 </html>

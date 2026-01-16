@@ -1,6 +1,6 @@
 const btn = document.getElementById("submitBtn");
 const statusBox = document.getElementById("status");
-const successLog = document.getElementById("successLog");
+const historyList = document.getElementById("historyList");
 
 btn.addEventListener("click", async () => {
   const input = document.getElementById("url").value.trim();
@@ -8,13 +8,11 @@ btn.addEventListener("click", async () => {
   const code = document.getElementById("code").value.trim();
 
   if (!input || !code) {
-    successLog.textContent = "❌ Please fill all fields";
+    statusBox.textContent = "❌ Please fill all fields";
     return;
   }
 
-  // Reset UI ONCE
-  statusBox.textContent = "⏳ Processing logs...\n";
-  successLog.textContent = "";
+  statusBox.textContent = "⏳ Working on it...\n";
 
   try {
     const res = await fetch("http://localhost:3000/push", {
@@ -26,32 +24,21 @@ btn.addEventListener("click", async () => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Push failed");
 
-    // 🟡 Print backend logs slowly
     if (Array.isArray(data.logs)) {
-      for (const line of data.logs) {
-        statusBox.textContent += line + "\n";
-        await new Promise(r => setTimeout(r, 500)); // smooth typing
+      for (const log of data.logs) {
+        statusBox.textContent += log + "\n";
+        await new Promise(r => setTimeout(r, 400));
       }
     }
 
-    // 🛑 STOP status log here (nothing overwrites it)
+    statusBox.textContent += "\n🤖 Successfully pushed to GitHub";
 
-    // 🤖 Success message
-    successLog.textContent = "🤖 Successfully pushed to GitHub";
-    successLog.classList.add("success-glow");
-
-    // ⏳ Wait 10 seconds
-    await new Promise(r => setTimeout(r, 10000));
-
-    // ✅ Done message
-    successLog.textContent = "✅ Done published";
-
-    // 🔁 OPTIONAL: refresh after 2s
-    setTimeout(() => {
-      location.reload();
-    }, 2000);
+    // HISTORY ENTRY
+    const li = document.createElement("li");
+    li.textContent = `🤖 ${data?.data?.title || input} — pushed successfully`;
+    historyList.prepend(li);
 
   } catch (err) {
-    successLog.textContent = `❌ FAILED to push code\n${err.message}`;
+    statusBox.textContent += `\n❌ ${err.message}`;
   }
 });
