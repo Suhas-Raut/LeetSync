@@ -14,8 +14,8 @@
 
 | Topic | Count |
 |-------|-------|
-| Arrays | 1 |
-| Binary-Search | 1 |
+| Arrays | 1 |
+| Binary-Search | 1 |
 | Hash Table | 1 |
 | String | 2 |
 | Sliding Window | 1 |
