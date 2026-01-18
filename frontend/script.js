@@ -1,42 +1,19 @@
-console.log("🟢 SCRIPT LOADED");
-window.addEventListener("beforeunload", () => {
-  console.log("🔴 PAGE IS RELOADING");
-});
+import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 
+const status = document.getElementById("status");
 const btn = document.getElementById("submitBtn");
-const statusBox = document.getElementById("status");
-const historyList = document.getElementById("historyList");
 
-btn.addEventListener("click", async (e) => {
-  e.preventDefault(); // 🚫 STOP PAGE RELOAD
-  console.log("🟢 SCRIPT LOADED");
-window.addEventListener("beforeunload", () => {
-  console.log("🔴 PAGE IS RELOADING");
+listen("log", e => {
+  status.textContent += e.payload + "\n";
 });
 
-  statusBox.textContent = "⏳ Sending request...\n";
-  console.log("🌐 FETCH STARTED");
+btn.addEventListener("click", async () => {
+  status.textContent = "⏳ Working...\n";
 
-  try {
-    const res = await fetch("http://localhost:3000/push", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        input: "https://leetcode.com/problems/zigzag-conversion",
-        lang: "cpp",
-        code: "TEST"
-      })
-    });
-
-    console.log("📡 RESPONSE STATUS:", res.status);
-
-    const raw = await res.text();
-    console.log("📦 RAW RESPONSE:", raw);
-
-    statusBox.textContent += "📦 Raw response received\n";
-
-  } catch (err) {
-    console.error("❌ FETCH ERROR:", err);
-    statusBox.textContent += "❌ Fetch failed\n";
-  }
+  await invoke("run_leetsync", {
+    input: document.getElementById("url").value,
+    lang: document.getElementById("lang").value,
+    code: document.getElementById("code").value
+  });
 });

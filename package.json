@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "server": "node server.js"
+    "tauri": "tauri"
   },
   "keywords": [],
   "author": "",
@@ -16,8 +16,9 @@
     "@octokit/rest": "^22.0.1",
     "axios": "^1.13.2",
     "better-sqlite3": "^12.6.0",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.2.1"
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.9.6"
   }
 }

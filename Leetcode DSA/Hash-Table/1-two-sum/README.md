@@ -24,10 +24,5 @@ Given an array of integers nums&nbsp;and an integer target, return indices of th
 ## ✅ Solution Code (cpp)
 
 ```cpp
-class Solution {
-public:
-    vector<int> twoSum(vector<int>& nums, int target) {
-        
-    }
-};
+int main(){}
 ```
