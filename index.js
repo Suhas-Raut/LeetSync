@@ -1,3 +1,7 @@
+console.log("🧭 Node CWD:", process.cwd());
+console.log("📥 Args:", process.argv);
+
+
 import { generateAll } from "./scripts/index.js";
 
 const [, , input, lang, code] = process.argv;
@@ -12,5 +16,7 @@ const [, , input, lang, code] = process.argv;
 
   for (const log of result.logs) {
     console.log(log);
+    
+
   }
 })();

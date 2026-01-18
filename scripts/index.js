@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
-
+console.log("🧭 CWD:", process.cwd());
 import { fetchProblemData } from "./fetchProblem.js";
 import { generateReadme } from "./generateReadme.js";
 import { pushProblemLocal } from "./githubPushHelper.js";

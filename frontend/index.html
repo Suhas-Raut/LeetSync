@@ -2,34 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>LeetSync</title>
+  <title>LeetSync Desktop</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <header>
-    <h1>LeetSync 🤖</h1>
-    <p>Push LeetCode solutions to GitHub instantly</p>
-  </header>
 
-  <main>
-    <section class="card">
-      <input id="url" placeholder="LeetCode URL" />
-      <select id="lang">
-        <option value="cpp">C++</option>
-        <option value="js">JavaScript</option>
-        <option value="python">Python</option>
-      </select>
-      <textarea id="code" placeholder="// Paste your solution"></textarea>
-      <button id="submitBtn">Push to GitHub</button>
-    </section>
+<header>
+  <h1>LeetSync Desktop</h1>
+  <p>Submit LeetCode solutions and push directly to GitHub 🤖</p>
+</header>
 
-    <section class="card">
-      <h3>Status</h3>
-      <pre id="status">Waiting...</pre>
-    </section>
-  </main>
+<main class="container">
 
-  <script type="module" src="script.js"></script>
+  <!-- SUBMIT CARD -->
+  <div class="card">
+    <h2>Submit New Problem</h2>
+    <input id="url" placeholder="LeetCode URL or Problem Number" />
+    <select id="lang">
+      <option value="cpp">C++</option>
+      <option value="js">JavaScript</option>
+      <option value="python">Python</option>
+    </select>
+    <textarea id="code" placeholder="// Paste your code here"></textarea>
+    <button id="submitBtn" type="button">Submit Problem</button>
+  </div>
+
+  <!-- STATUS CARD -->
+  <div class="card">
+    <h2>Status Log</h2>
+    <pre id="status">Waiting for submission...</pre>
+  </div>
+
+</main>
+
+<!-- HISTORY LIST -->
+<section class="history">
+  <h2>Uploaded Problems</h2>
+  <ul id="historyList"></ul>
+</section>
+
+<script type="module" src="script.js"></script>
 </body>
 </html>
