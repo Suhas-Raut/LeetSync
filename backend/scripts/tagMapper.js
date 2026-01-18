@@ -1,4 +1,5 @@
 export const TAG_TO_DSA = {
+  "Array": "Arrays",
   "Arrays": "Arrays",
   "String": "Strings",
   "Hash Table": "Hash-Table",
@@ -7,7 +8,7 @@ export const TAG_TO_DSA = {
   "Two Pointers": "Two-Pointers",
   "Sliding Window": "Sliding-Window",
   "Dynamic Programming": "Dynamic-Programming",
-  "Binary-Search": "Binary-Search",
+  "Binary Search": "Binary-Search",
   "Greedy": "Greedy",
   "Graph": "Graph",
   "Tree": "Tree",
