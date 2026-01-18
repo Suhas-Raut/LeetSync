@@ -1,17 +1,12 @@
-export default function History({ items }) {
-  if (!items.length) return null;
-
+export default function History({ entries }) {
   return (
-    <section className="history">
-      <h2>Submission History</h2>
+    <div className="card">
+      <h2>Uploaded Problems</h2>
       <ul>
-        {items.map((h) => (
-          <li key={h.id}>
-            <span>{h.url}</span>
-            <small>{h.time}</small>
-          </li>
+        {entries.map((title, i) => (
+          <li key={i}>🤖 {title} — pushed successfully</li>
         ))}
       </ul>
-    </section>
+    </div>
   );
 }

@@ -1,17 +1,25 @@
-const API_BASE = "http://localhost:3001"; // <--- match your backend port
+const API_BASE = "http://localhost:3000";
 
-// frontend/src/api.js
-export async function runLeetSync({ url, lang, code }) {
-  const res = await fetch("http://localhost:3001/run", {
+export async function pushProblem({ input, lang, code, onLog }) {
+  const res = await fetch(`${API_BASE}/push`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url, lang, code }),
+    body: JSON.stringify({ input, lang, code })
   });
 
-  const data = await res.json();
-  if (!res.ok || !data.success) {
-    throw new Error(data.error || "Backend failed");
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error || "Push failed");
   }
 
-  return data.logs; // <-- return logs to frontend
+  const data = await res.json();
+
+  if (onLog && Array.isArray(data.logs)) {
+    for (const log of data.logs) {
+      onLog(log);
+      await new Promise(r => setTimeout(r, 300));
+    }
+  }
+
+  return data.data;
 }
