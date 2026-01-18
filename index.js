@@ -2,7 +2,7 @@ console.log("🧭 Node CWD:", process.cwd());
 console.log("📥 Args:", process.argv);
 
 
-import { generateAll } from "./scripts/index.js";
+import { generateAll } from "./backend/scripts/index.js";
 
 const [, , input, lang, code] = process.argv;
 

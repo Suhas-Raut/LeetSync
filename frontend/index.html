@@ -1,46 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>LeetSync Desktop</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-
-<header>
-  <h1>LeetSync Desktop</h1>
-  <p>Submit LeetCode solutions and push directly to GitHub 🤖</p>
-</header>
-
-<main class="container">
-
-  <!-- SUBMIT CARD -->
-  <div class="card">
-    <h2>Submit New Problem</h2>
-    <input id="url" placeholder="LeetCode URL or Problem Number" />
-    <select id="lang">
-      <option value="cpp">C++</option>
-      <option value="js">JavaScript</option>
-      <option value="python">Python</option>
-    </select>
-    <textarea id="code" placeholder="// Paste your code here"></textarea>
-    <button id="submitBtn" type="button">Submit Problem</button>
-  </div>
-
-  <!-- STATUS CARD -->
-  <div class="card">
-    <h2>Status Log</h2>
-    <pre id="status">Waiting for submission...</pre>
-  </div>
-
-</main>
-
-<!-- HISTORY LIST -->
-<section class="history">
-  <h2>Uploaded Problems</h2>
-  <ul id="historyList"></ul>
-</section>
-
-<script type="module" src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>frontend</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
