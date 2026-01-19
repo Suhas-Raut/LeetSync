@@ -8,7 +8,7 @@
 |-------|-------|
 | Easy | 20 |
 | Medium | 11 |
-| Hard | 1 |
+| Hard | 2 |
 
 ### DSA Topics
 
@@ -19,8 +19,8 @@
 | Dynamic Programming | 5 |
 | Math | 5 |
 | Binary Search | 4 |
-| Linked List | 3 |
-| Recursion | 3 |
+| Linked List | 4 |
+| Recursion | 4 |
 | Hash Table | 2 |
 | Matrix | 2 |
 | Tree | 2 |
