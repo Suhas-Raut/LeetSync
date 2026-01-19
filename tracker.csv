@@ -25,3 +25,5 @@ id,title,difficulty,tags
 2820,Return Length of Arguments Passed,Easy,
 6,Zigzag Conversion,Medium,String
 8,String to Integer (atoi),Medium,String
+
+7,Reverse Integer,Medium,Math
