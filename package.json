@@ -2,16 +2,14 @@
   "name": "leetcode-dashboard",
   "version": "1.0.0",
   "type": "module",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "tauri": "tauri"
+    "backend": "node backend/index.js",
+    "frontend": "cd frontend && npm start",
+    "dev": "concurrently -k -n \"BACKEND,FRONTEND\" -c \"cyan,green\" \"npm run backend\" \"npm run frontend\"",
+    "tauri": "tauri",
+    "start": "npm run dev"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@octokit/rest": "^22.0.1",
     "axios": "^1.13.2",
@@ -19,6 +17,7 @@
     "dotenv": "^17.2.3"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.9.6"
+    "@tauri-apps/cli": "^2.9.6",
+    "concurrently": "^9.2.1"
   }
 }
