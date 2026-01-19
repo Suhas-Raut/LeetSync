@@ -1,11 +1,26 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+/* ---------------- PROJECT ROOT ---------------- */
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// D:/Projects/LeetSync
+const PROJECT_ROOT = path.resolve(__dirname, "../..");
+
+/* ---------------- PATHS ---------------- */
+
+const TRACKER_FILE = path.join(PROJECT_ROOT, "tracker.csv");
+const ROOT_README = path.join(PROJECT_ROOT, "README.md");
+
+/* ---------------- MAIN ---------------- */
 
 export function updateRootReadme(problem) {
-  const TRACKER_FILE = path.join(process.cwd(), "tracker.csv");
-
-  // 1️⃣ Read existing CSV
   let data = [];
+
+  // 1️⃣ Read tracker.csv
   if (fs.existsSync(TRACKER_FILE)) {
     const raw = fs.readFileSync(TRACKER_FILE, "utf-8").trim();
 
@@ -27,7 +42,7 @@ export function updateRootReadme(problem) {
     fs.writeFileSync(TRACKER_FILE, "id,title,difficulty,tags");
   }
 
-  // 2️⃣ Append new problem
+  // 2️⃣ Append if new
   if (!data.find(p => p.id === problem.id)) {
     fs.appendFileSync(
       TRACKER_FILE,
@@ -42,7 +57,7 @@ export function updateRootReadme(problem) {
     });
   }
 
-  // 3️⃣ Count totals (data IS VALID HERE)
+  // 3️⃣ Count totals
   const counts = data.reduce(
     (acc, p) => {
       acc.difficulty[p.difficulty] =
@@ -58,26 +73,21 @@ export function updateRootReadme(problem) {
     { difficulty: {}, tags: {} }
   );
 
-// 4️⃣ Generate README
-let readme = "# 📘 LeetCode Progress Tracker\n\n";
-readme += "## 🧠 LeetCode DSA\n\n";
+  // 4️⃣ Generate README
+  let readme = "# 📘 LeetCode Progress Tracker\n\n";
+  readme += "## 🧠 LeetCode DSA\n\n";
 
-// Difficulty table
-readme += "### Difficulty\n\n";
-readme += "| Level | Count |\n|-------|-------|\n";
-["Easy", "Medium", "Hard"].forEach(level => {
-  readme += `| ${level} | ${counts.difficulty[level] || 0} |\n`;
-});
+  readme += "### Difficulty\n\n";
+  readme += "| Level | Count |\n|-------|-------|\n";
+  ["Easy", "Medium", "Hard"].forEach(level => {
+    readme += `| ${level} | ${counts.difficulty[level] || 0} |\n`;
+  });
 
-// DSA Topics table with clickable links
-readme += "\n### DSA Topics\n\n";
-readme += "| Topic | Count |\n|-------|-------|\n";
+  readme += "\n### DSA Topics\n\n";
+  readme += "| Topic | Count |\n|-------|-------|\n";
+  Object.entries(counts.tags).forEach(([tag, count]) => {
+    readme += `| ${tag} | ${count} |\n`;
+  });
 
-Object.entries(counts.tags).forEach(([tag, count]) => {
-  readme += `| ${tag} | ${count} |\n`; // ✅ plain text, no link
-});
-
-
-fs.writeFileSync(path.join(process.cwd(), "README.md"), readme);
-
+  fs.writeFileSync(ROOT_README, readme);
 }
