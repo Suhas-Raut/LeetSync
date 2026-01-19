@@ -27,3 +27,4 @@ id,title,difficulty,tags
 8,String to Integer (atoi),Medium,String
 
 7,Reverse Integer,Medium,Math
+9,Palindrome Number,Easy,Math
