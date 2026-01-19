@@ -10,3 +10,4 @@
 - [5-longest-palindromic-substring](5-longest-palindromic-substring/README.md)
 - [58-length-of-last-word](58-length-of-last-word/README.md)
 - [6-zigzag-conversion](6-zigzag-conversion/README.md)
+- [8-string-to-integer-atoi](8-string-to-integer-atoi/README.md)
