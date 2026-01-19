@@ -1,15 +1,28 @@
 import { execSync } from "child_process";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// 👉 points to D:/Projects/LeetSync
+const PROJECT_ROOT = path.resolve(__dirname, "..", "..");
 
 export function pushProblemLocal(problemId, problemTitle) {
   try {
-    execSync("git add .", { stdio: "pipe" });
+    const opts = {
+      cwd: PROJECT_ROOT,
+      stdio: "pipe",
+    };
+
+    execSync("git add .", opts);
 
     execSync(
       `git commit -m "LC ${problemId}: ${problemTitle}"`,
-      { stdio: "pipe" }
+      opts
     );
 
-    execSync("git push origin main", { stdio: "pipe" });
+    execSync("git push origin main", opts);
 
     return "🎉 Git commit & push successful";
 
@@ -23,6 +36,6 @@ export function pushProblemLocal(problemId, problemTitle) {
       return "⚠️ No changes to commit (already synced)";
     }
 
-    throw new Error(`Git failed: ${output}`);
+    throw new Error(output);
   }
 }

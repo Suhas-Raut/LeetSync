@@ -29,3 +29,4 @@ id,title,difficulty,tags
 7,Reverse Integer,Medium,Math
 9,Palindrome Number,Easy,Math
 20,Valid Parentheses,Easy,String|Stack
+22,Generate Parentheses,Medium,String|Dynamic Programming|Backtracking
