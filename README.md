@@ -6,7 +6,7 @@
 
 | Level | Count |
 |-------|-------|
-| Easy | 19 |
+| Easy | 20 |
 | Medium | 9 |
 | Hard | 1 |
 
@@ -15,7 +15,7 @@
 | Topic | Count |
 |-------|-------|
 | Array | 12 |
-| String | 7 |
+| String | 8 |
 | Math | 5 |
 | Binary Search | 4 |
 | Dynamic Programming | 4 |
@@ -34,3 +34,4 @@
 | Depth-First Search | 1 |
 | Breadth-First Search | 1 |
 | Enumeration | 1 |
+| Stack | 1 |
