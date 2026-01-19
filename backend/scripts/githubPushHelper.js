@@ -2,18 +2,27 @@ import { execSync } from "child_process";
 
 export function pushProblemLocal(problemId, problemTitle) {
   try {
-    execSync("git add .", { stdio: "inherit" });
+    execSync("git add .", { stdio: "pipe" });
 
     execSync(
       `git commit -m "LC ${problemId}: ${problemTitle}"`,
-      { stdio: "inherit" }
+      { stdio: "pipe" }
     );
 
-    execSync("git push origin main", { stdio: "inherit" });
+    execSync("git push origin main", { stdio: "pipe" });
 
-    console.log("🤖 Local git commit and push completed!");
+    return "🎉 Git commit & push successful";
+
   } catch (err) {
-    console.error("❌ Git operation failed");
-    console.error(err.message);
+    const output =
+      err.stdout?.toString() ||
+      err.stderr?.toString() ||
+      err.message;
+
+    if (output.includes("nothing to commit")) {
+      return "⚠️ No changes to commit (already synced)";
+    }
+
+    throw new Error(`Git failed: ${output}`);
   }
 }

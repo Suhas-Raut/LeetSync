@@ -50,9 +50,9 @@ export async function generateAll(input, lang, code) {
 
     updateRootReadme(problem);
     updateTopicReadme(problem);
-    pushProblemLocal(problem.id, problem.title);
+   const gitMsg = pushProblemLocal(problem.id, problem.title);
+log(gitMsg);
 
-    log("🤖 Local git commit and push completed!");
 
     return {
       success: true,
