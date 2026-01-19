@@ -48,13 +48,15 @@ export async function fetchProblemData(input) {
 
   const q = data.data.question;
 
-  return {
-    id: q.questionId,
-    title: q.title,
-    difficulty: q.difficulty,
-    tags: q.topicTags.map(t => t.name),
-    description: htmlToText(q.content)
-  };
+ return {
+  id: q.questionId,
+  title: q.title,
+  difficulty: q.difficulty,
+  tags: q.topicTags.map(t => t.name),
+  description: htmlToText(q.content),
+  examples: extractExamples(q.content)
+};
+
 }
 
 /* ------------------ HELPERS ------------------ */
@@ -86,4 +88,19 @@ async function slugFromNumberDynamic(num) {
 
 function htmlToText(html) {
   return html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+}
+
+function extractExamples(html) {
+  const exampleRegex = /Example\s*\d*:\s*Input:(.*?)Output:(.*?)(?=Example|\Z)/gis;
+  const examples = [];
+
+  let match;
+  while ((match = exampleRegex.exec(html)) !== null) {
+    examples.push({
+      input: match[1].replace(/<[^>]+>/g, "").trim(),
+      output: match[2].replace(/<[^>]+>/g, "").trim()
+    });
+  }
+
+  return examples;
 }
