@@ -6,8 +6,6 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// D:/Projects/LeetSync
 const PROJECT_ROOT = path.resolve(__dirname, "../..");
 
 /* ---------------- PATHS ---------------- */
@@ -30,11 +28,12 @@ export function updateRootReadme(problem) {
         .slice(1)
         .map(line => {
           const [id, title, difficulty, tags] = line.split(",");
+
           return {
-            id,
-            title,
-            difficulty,
-            tags: tags ? tags.split("|") : []
+            id: id?.trim(),
+            title: title?.trim(),
+            difficulty: normalizeDifficulty(difficulty),
+            tags: normalizeTags(tags)
           };
         });
     }
@@ -42,36 +41,39 @@ export function updateRootReadme(problem) {
     fs.writeFileSync(TRACKER_FILE, "id,title,difficulty,tags");
   }
 
-  // 2️⃣ Append if new
+  // 2️⃣ Append new problem safely
   if (!data.find(p => p.id === problem.id)) {
+    const cleanDifficulty = normalizeDifficulty(problem.difficulty);
+    const cleanTags = normalizeTags(problem.tags.join("|"));
+
     fs.appendFileSync(
       TRACKER_FILE,
-      `\n${problem.id},${problem.title},${problem.difficulty},${problem.tags.join("|")}`
+      `\n${problem.id},${problem.title},${cleanDifficulty},${cleanTags.join("|")}`
     );
 
     data.push({
       id: problem.id,
       title: problem.title,
-      difficulty: problem.difficulty,
-      tags: problem.tags
+      difficulty: cleanDifficulty,
+      tags: cleanTags
     });
   }
 
-  // 3️⃣ Count totals
-  const counts = data.reduce(
-    (acc, p) => {
-      acc.difficulty[p.difficulty] =
-        (acc.difficulty[p.difficulty] || 0) + 1;
+  // 3️⃣ Count totals (clean data only)
+  const counts = {
+    difficulty: { Easy: 0, Medium: 0, Hard: 0 },
+    tags: {}
+  };
 
-      p.tags.forEach(tag => {
-        if (!tag) return;
-        acc.tags[tag] = (acc.tags[tag] || 0) + 1;
-      });
+  for (const p of data) {
+    if (counts.difficulty[p.difficulty] !== undefined) {
+      counts.difficulty[p.difficulty]++;
+    }
 
-      return acc;
-    },
-    { difficulty: {}, tags: {} }
-  );
+    for (const tag of p.tags) {
+      counts.tags[tag] = (counts.tags[tag] || 0) + 1;
+    }
+  }
 
   // 4️⃣ Generate README
   let readme = "# 📘 LeetCode Progress Tracker\n\n";
@@ -80,14 +82,38 @@ export function updateRootReadme(problem) {
   readme += "### Difficulty\n\n";
   readme += "| Level | Count |\n|-------|-------|\n";
   ["Easy", "Medium", "Hard"].forEach(level => {
-    readme += `| ${level} | ${counts.difficulty[level] || 0} |\n`;
+    readme += `| ${level} | ${counts.difficulty[level]} |\n`;
   });
 
   readme += "\n### DSA Topics\n\n";
   readme += "| Topic | Count |\n|-------|-------|\n";
-  Object.entries(counts.tags).forEach(([tag, count]) => {
-    readme += `| ${tag} | ${count} |\n`;
-  });
+
+  Object.entries(counts.tags)
+    .sort((a, b) => b[1] - a[1])
+    .forEach(([tag, count]) => {
+      readme += `| ${tag} | ${count} |\n`;
+    });
 
   fs.writeFileSync(ROOT_README, readme);
+}
+
+/* ---------------- HELPERS ---------------- */
+
+function normalizeDifficulty(diff = "") {
+  const d = diff.trim().toLowerCase();
+  if (d === "easy") return "Easy";
+  if (d === "medium") return "Medium";
+  if (d === "hard") return "Hard";
+  return "Easy";
+}
+
+function normalizeTags(raw = "") {
+  if (!raw) return [];
+
+  return [...new Set(
+    raw
+      .split("|")
+      .map(t => t.trim())
+      .filter(Boolean)
+  )];
 }

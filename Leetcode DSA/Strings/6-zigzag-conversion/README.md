@@ -1,28 +1,30 @@
+
 # 6. Zigzag Conversion
 
-**Difficulty:** Medium  
-**Tags:** String
+**Difficulty:** Medium
 
----
+## 🧠 Problem Description
+The string &quot;PAYPALISHIRING&quot; is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility) P A H N A P L S I I G Y I R And then read line by line: &quot;PAHNAPLSIIGYIR&quot; Write the code that will take a string and make this conversion given a number of rows: string convert(string s, int numRows); &nbsp; Example 1: Input: s = &quot;PAYPALISHIRING&quot;, numRows = 3 Output: &quot;PAHNAPLSIIGYIR&quot; Example 2: Input: s = &quot;PAYPALISHIRING&quot;, numRows = 4 Output: &quot;PINALSIGYAHRPI&quot; Explanation: P I N A L S I G Y A H R P I Example 3: Input: s = &quot;A&quot;, numRows = 1 Output: &quot;A&quot; &nbsp; Constraints: 1 &lt;= s.length &lt;= 1000 s consists of English letters (lower-case and upper-case), &#39;,&#39; and &#39;.&#39;. 1 &lt;= numRows &lt;= 1000  <!-- use description, already cleaned -->
 
-## 📘 Problem Description
-The string &quot;PAYPALISHIRING&quot; is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility) P A H N A P L S I I G Y I R And then read line by line: &quot;PAHNAPLSIIGYIR&quot; Write the code that will take a string and make this conversion given a number of rows: string convert(string s, int numRows); &nbsp; Example 1: Input: s = &quot;PAYPALISHIRING&quot;, numRows = 3 Output: &quot;PAHNAPLSIIGYIR&quot; Example 2: Input: s = &quot;PAYPALISHIRING&quot;, numRows = 4 Output: &quot;PINALSIGYAHRPI&quot; Explanation: P I N A L S I G Y A H R P I Example 3: Input: s = &quot;A&quot;, numRows = 1 Output: &quot;A&quot; &nbsp; Constraints: 1 &lt;= s.length &lt;= 1000 s consists of English letters (lower-case and upper-case), &#39;,&#39; and &#39;.&#39;. 1 &lt;= numRows &lt;= 1000
-
----
-
-## 💡 Approach
-<!-- Explain your approach here -->
-
----
-
-## ⏱️ Complexity Analysis
-- **Time Complexity:** O(n)
-- **Space Complexity:** O(1)
-
----
-
-## ✅ Solution Code (cpp)
+## 💡 Solution (cpp)
 
 ```cpp
-TEST
+class Solution {
+public:
+    string convert(string s, int r) {
+        if(r==1) return s;
+        vector<string> v(r);
+        int row=0, dir=1;
+        for(char c: s){
+            v[row]+=c;
+            if(row==0) dir=1;
+            if(row==r-1) dir=-1;
+            row+=dir;
+        }
+        string ans="";
+        for(auto &str: v) ans+=str;
+        return ans;
+    }
+};
+
 ```
