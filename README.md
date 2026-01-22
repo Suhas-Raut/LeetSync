@@ -8,15 +8,15 @@
 |-------|-------|
 | Easy | 20 |
 | Medium | 12 |
-| Hard | 3 |
+| Hard | 4 |
 
 ### DSA Topics
 
 | Topic | Count |
 |-------|-------|
 | Array | 14 |
-| String | 9 |
-| Dynamic Programming | 5 |
+| String | 10 |
+| Dynamic Programming | 6 |
 | Math | 5 |
 | Binary Search | 4 |
 | Linked List | 4 |
@@ -27,6 +27,7 @@
 | Tree | 2 |
 | Binary Tree | 2 |
 | Two Pointers | 2 |
+| Stack | 2 |
 | Divide and Conquer | 1 |
 | Trie | 1 |
 | Prefix Sum | 1 |
@@ -35,4 +36,3 @@
 | Depth-First Search | 1 |
 | Breadth-First Search | 1 |
 | Enumeration | 1 |
-| Stack | 1 |

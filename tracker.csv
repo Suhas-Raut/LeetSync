@@ -34,3 +34,4 @@ id,title,difficulty,tags
 25,Reverse Nodes in k-Group,Hard,Linked List|Recursion
 40,Combination Sum II,Medium,Array|Backtracking
 37,Sudoku Solver,Hard,Array|Hash Table|Backtracking|Matrix
+32,Longest Valid Parentheses,Hard,String|Dynamic Programming|Stack
