@@ -6,7 +6,7 @@
 
 | Level | Count |
 |-------|-------|
-| Easy | 21 |
+| Easy | 22 |
 | Medium | 14 |
 | Hard | 4 |
 
@@ -18,9 +18,9 @@
 | String | 10 |
 | Dynamic Programming | 6 |
 | Binary Search | 5 |
+| Linked List | 5 |
+| Recursion | 5 |
 | Math | 5 |
-| Linked List | 4 |
-| Recursion | 4 |
 | Two Pointers | 4 |
 | Hash Table | 3 |
 | Matrix | 3 |
