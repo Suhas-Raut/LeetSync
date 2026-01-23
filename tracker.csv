@@ -35,3 +35,4 @@ id,title,difficulty,tags
 40,Combination Sum II,Medium,Array|Backtracking
 37,Sudoku Solver,Hard,Array|Hash Table|Backtracking|Matrix
 32,Longest Valid Parentheses,Hard,String|Dynamic Programming|Stack
+34,Find First and Last Position of Element in Sorted Array,Medium,Array|Binary Search
