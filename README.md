@@ -7,14 +7,14 @@
 | Level | Count |
 |-------|-------|
 | Easy | 20 |
-| Medium | 13 |
+| Medium | 14 |
 | Hard | 4 |
 
 ### DSA Topics
 
 | Topic | Count |
 |-------|-------|
-| Array | 15 |
+| Array | 16 |
 | String | 10 |
 | Dynamic Programming | 6 |
 | Binary Search | 5 |
@@ -23,10 +23,10 @@
 | Recursion | 4 |
 | Hash Table | 3 |
 | Matrix | 3 |
+| Two Pointers | 3 |
 | Backtracking | 3 |
 | Tree | 2 |
 | Binary Tree | 2 |
-| Two Pointers | 2 |
 | Stack | 2 |
 | Divide and Conquer | 1 |
 | Trie | 1 |
