@@ -18,7 +18,7 @@ export function pushProblemLocal(problemId, problemTitle) {
     execSync("git add .", opts);
 
     execSync(
-      `git commit -m "LC ${problemId}: ${problemTitle}"`,
+      `git commit -m "📘 LC ${problemId}: ${problemTitle}"`,
       opts
     );
 
