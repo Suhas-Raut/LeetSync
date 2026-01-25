@@ -8,21 +8,21 @@
 |-------|-------|
 | Easy | 22 |
 | Medium | 14 |
-| Hard | 5 |
+| Hard | 6 |
 
 ### DSA Topics
 
 | Topic | Count |
 |-------|-------|
-| Array | 17 |
+| Array | 18 |
 | String | 10 |
 | Dynamic Programming | 6 |
 | Linked List | 6 |
 | Binary Search | 5 |
 | Recursion | 5 |
 | Math | 5 |
+| Hash Table | 4 |
 | Two Pointers | 4 |
-| Hash Table | 3 |
 | Matrix | 3 |
 | Backtracking | 3 |
 | Divide and Conquer | 2 |
