@@ -42,3 +42,4 @@ id,title,difficulty,tags
 23,Merge k Sorted Lists,Hard,Linked List|Divide and Conquer|Heap (Priority Queue)|Merge Sort
 41,First Missing Positive,Hard,Array|Hash Table
 60,Permutation Sequence,Hard,Math|Recursion
+59,Spiral Matrix II,Medium,Array|Matrix|Simulation
