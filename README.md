@@ -7,16 +7,16 @@
 | Level | Count |
 |-------|-------|
 | Easy | 22 |
-| Medium | 15 |
+| Medium | 16 |
 | Hard | 7 |
 
 ### DSA Topics
 
 | Topic | Count |
 |-------|-------|
-| Array | 19 |
+| Array | 20 |
 | String | 10 |
-| Dynamic Programming | 6 |
+| Dynamic Programming | 7 |
 | Linked List | 6 |
 | Recursion | 6 |
 | Math | 6 |
@@ -39,3 +39,4 @@
 | Heap (Priority Queue) | 1 |
 | Merge Sort | 1 |
 | Simulation | 1 |
+| Greedy | 1 |

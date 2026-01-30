@@ -43,3 +43,4 @@ id,title,difficulty,tags
 41,First Missing Positive,Hard,Array|Hash Table
 60,Permutation Sequence,Hard,Math|Recursion
 59,Spiral Matrix II,Medium,Array|Matrix|Simulation
+55,Jump Game,Medium,Array|Dynamic Programming|Greedy
