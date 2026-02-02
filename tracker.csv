@@ -45,3 +45,4 @@ id,title,difficulty,tags
 59,Spiral Matrix II,Medium,Array|Matrix|Simulation
 55,Jump Game,Medium,Array|Dynamic Programming|Greedy
 56,Merge Intervals,Medium,Array|Sorting
+50,Pow(x, n),Medium,Math|Recursion

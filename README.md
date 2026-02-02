@@ -7,7 +7,7 @@
 | Level | Count |
 |-------|-------|
 | Easy | 22 |
-| Medium | 17 |
+| Medium | 18 |
 | Hard | 7 |
 
 ### DSA Topics
@@ -17,9 +17,9 @@
 | Array | 21 |
 | String | 10 |
 | Dynamic Programming | 7 |
+| Recursion | 7 |
+| Math | 7 |
 | Linked List | 6 |
-| Recursion | 6 |
-| Math | 6 |
 | Binary Search | 5 |
 | Hash Table | 4 |
 | Matrix | 4 |
